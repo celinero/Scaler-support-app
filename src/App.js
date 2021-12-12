@@ -1,5 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import {getTickets} from './services/ticketServices'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Tickets from './components/Tickets';
+import { getTickets } from './services/ticketServices';
+import { GlobalStyle } from './styled-components/globalStyles';
 
 const App = () => {
   const [tickets, setTickets] = useState([]);
@@ -16,15 +19,14 @@ const App = () => {
   }, [])
   
   return (
-    <div >
-      {
-        loading
-        ?
-        (<p>Loading</p>)
-        :
-        (<p>Got tickets</p>)
-      }
-    </div>
+    <>
+    <GlobalStyle />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Tickets loading={loading} tickets={tickets} />} ></Route>
+      </Routes>
+    </BrowserRouter>
+    </>
   )
 }
 
