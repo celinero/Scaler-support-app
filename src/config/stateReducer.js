@@ -6,6 +6,28 @@ const stateReducer = (state, action) => {
         tickets: action.data
       }
     }
+
+    case "setCategories": {
+      return{
+        ...state,
+        categories: action.data
+      }
+    }
+
+    case "setLoggedInUser": {
+      return{
+        ...state,
+        loggedInUser: action.data
+      }
+    }
+
+    case "removeLoggedInUser": {
+      return{
+        ...state,
+        loggedInUser: null
+      }
+    }
+
     default:
       return state;
   }

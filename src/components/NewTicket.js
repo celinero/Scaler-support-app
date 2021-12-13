@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router';
 import { useGlobalState } from '../config/store';
 import { createNewTicket } from '../services/ticketServices';
 import {Block, Label, Input, TextArea, InputButton, Select, Option} from '../styled-components/index'
-import categories from '../data/categories'
 import { capitalize } from '../utils/stringUtils';
 
 export const NewTicket = (props) => {
   const navigate = useNavigate();
   const {store, dispatch} = useGlobalState();
-  const {tickets} = store;
+  const {tickets, categories} = store;
   const [loading, setLoading] = useState(false);
 
   const initialState = {
@@ -22,12 +21,14 @@ export const NewTicket = (props) => {
   const [formState, setFormState] = useState(initialState);
 
   function addNewTicket(ticketObject){
+    setLoading(true)
     createNewTicket(ticketObject)
       .then(newTicket => {
         dispatch({
         type: "setTickets",
         data: [...tickets, newTicket]
       })
+      setLoading(false)
       navigate("/")
       })
       .catch(error => console.log(error))
@@ -69,7 +70,7 @@ export const NewTicket = (props) => {
           <TextArea from="newTicket" type="text" name="message" placeholder="Enter Message"  value={formState.message} onChange={handleChange} />
         </Block>
         <Block>
-          <InputButton type="submit" value="Add Ticket"></InputButton>
+          <InputButton disabled={loading} type="submit" value="Add Ticket"></InputButton>
         </Block>
       </form>
     </div>
