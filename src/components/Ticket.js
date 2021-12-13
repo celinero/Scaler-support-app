@@ -1,22 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import Moment from 'react-moment';
+import { useParams } from 'react-router';
+import { useGlobalState } from '../config/store';
 import { getTicket } from '../services/ticketServices';
 import { capitalize } from '../utils/stringUtils';
 
 export const Ticket = (props) => {
+
+  const { store } = useGlobalState();
+  const { tickets } = store;
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
+  const {id} = useParams()
+
 
   useEffect(() => {
-    getTicket(id)
+    getTicket(tickets, id)
     .then(ticket => setTicket(ticket))
     .catch(error => console.log(error))
     .finally(setLoading(false))
-  }, [])
+  }, [id, tickets])
 
-  if(!post) {
+  if(loading) {
     return(
-      <p>Ooops we couldn't find your ticket</p>
+      <p>Loading</p>
+    )
+  }
+
+  if(!ticket && !loading) {
+    return(
+      <p>Ooops couldn't find the ticket</p>
     )
   }
 
