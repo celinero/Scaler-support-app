@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import {Block, Label, Input, TextArea, InputButton} from '../styled-components/index'
+import { useGlobalState } from '../config/store';
+import { createNewTicket } from '../services/ticketServices';
+import {Block, Label, Input, TextArea, InputButton, Select, Option} from '../styled-components/index'
+import categories from '../data/categories'
+import { capitalize } from '../utils/stringUtils';
 
 export const NewTicket = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {store, dispatch} = useGlobalState();
+  const {tickets} = store;
+  const [loading, setLoading] = useState(false);
 
   const initialState = {
     subject: "",
@@ -11,8 +18,22 @@ export const NewTicket = (props) => {
     message: ""
   }
 
-  const { addNewTicket } = props;
+
   const [formState, setFormState] = useState(initialState);
+
+  function addNewTicket(ticketObject){
+    createNewTicket(ticketObject)
+      .then(newTicket => {
+        dispatch({
+        type: "setTickets",
+        data: [...tickets, newTicket]
+      })
+      navigate("/")
+      })
+      .catch(error => console.log(error))
+     
+      
+  }
 
   function handleChange(event) {
     setFormState({
@@ -25,7 +46,6 @@ export const NewTicket = (props) => {
   function handleSubmit(event) {
     event.preventDefault();
     addNewTicket(formState);
-    navigate("/tickets");
   }
 
 
@@ -39,7 +59,10 @@ export const NewTicket = (props) => {
         </Block>
         <Block>
           <Label>Category</Label>
-          <Input type="text" name="category" placeholder="Enter Category" value={formState.category} onChange={handleChange} />
+          <Select name="category" defaultValue="" onChange={handleChange} >
+            <Option disabled hidden value="" >Select Category:</Option>
+            {categories.map(category => (<Option key ={category.id} value={category.name}>{capitalize(category.name)}</Option>))}
+          </Select>
         </Block>
         <Block>
           <Label>Message</Label>

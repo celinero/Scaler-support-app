@@ -1,14 +1,11 @@
 import React from 'react';
 import { Nav, StyledLink } from '../styled-components'
 
-export const Navbar = () => {
+export const NavBar = (props) => {
   return(
     <Nav>
-      <div classname="container">
-        <div className="navbar">
-          <div className=""></div>
-        </div>
-      </div>
+      <StyledLink to="/tickets">Home</StyledLink>
+      <StyledLink to="/tickets/new">Add a post</StyledLink>
     </Nav>
   )
 }

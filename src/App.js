@@ -1,46 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { createNewTicket, getTickets } from './services/ticketServices';
 import { GlobalStyle } from './styled-components/globalStyles';
 import Tickets from './components/Tickets';
 import { Ticket } from './components/Ticket';
 import { NewTicket } from './components/NewTicket';
+import { NavBar } from './components/NavBar';
+import stateReducer from'./config/stateReducer';
+import initialState from './config/initialState'
+import { StateContext } from './config/store';
 // import { Homepage } from './components/Homepage';
 
 
 const App = () => {
-  const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
-    getTickets() 
-      .then(tickets => {
-        console.log(tickets)
-        setTickets(tickets)}
-        )
-      .catch(error => console.log(error))
-      .finally(()=> setLoading(false))
-  }, [])
+  const [store, dispatch] = useReducer(stateReducer, initialState)
+  // const [loading, setLoading] = useState(true)
 
-  function addNewTicket(ticketObject) {
-    setLoading(true)
-    createNewTicket(ticketObject)
-      .then(newTicket => setTickets([...tickets, newTicket]))
+  useEffect(() => {
+    getTickets()
+      .then(tickets => dispatch({type: "setTickets", data: tickets}))
       .catch(error => console.log(error))
-      .finally(() => setLoading(false));
-  }
+      // .finally(() => setLoading(false))
+  }, [])
   
   return (
     <>
-    <GlobalStyle />
-    <BrowserRouter>
-      <Routes>
-        {/* <Route path="/" element={<Homepage/>} /> */}
-        <Route path="/tickets" element={<Tickets loading={loading} tickets={tickets} />} />
-        <Route path="/tickets/new" element={<NewTicket addNewTicket={addNewTicket} />} />
-        <Route path="/tickets/:id" element={<Ticket />} />
-      </Routes>
-    </BrowserRouter>
+      <GlobalStyle />
+      <StateContext.Provider value={{store, dispatch}}>
+        <BrowserRouter>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Navigate to="/tickets" />} />
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/tickets/new" element={<NewTicket />} />
+            <Route path="/tickets/:id" element={<Ticket />} />
+          </Routes>
+        </BrowserRouter>
+      </StateContext.Provider>
     </>
   )
 }
