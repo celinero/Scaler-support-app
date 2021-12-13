@@ -12,7 +12,28 @@ export const getTickets = () => {
 export const getTicket = (id) => {
   return new Promise((resolve, request) => {
     setTimeout(() => {
-      resolve(tickets.find(ticket => ticket.id === id))
+      resolve(tickets.find(ticket => ticket.id === parseInt(id)))
     }, 500)
   })
+}
+
+const getnextId = () => {
+  const maxId = Math.max(...tickets.map(ticket => ticket.id));
+  return maxId + 1;
+}
+
+
+//faking database
+export const createNewTicket = (ticketObject) => {
+  const newTicket = {
+    ...ticketObject,
+    updated_at: Date.now(),
+    id: getnextId()
+  }
+  return new Promise((resolve, request) => {
+    setTimeout(() => {
+      resolve(newTicket);
+    }, 500)
+  })
+
 }
