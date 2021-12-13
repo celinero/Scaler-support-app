@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 
-export const CardContainer = styled.div`
+export const CardDeck = styled.div`
     display: flex;
     width: 80%; 
     margin: auto; 
