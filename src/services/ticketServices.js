@@ -9,7 +9,7 @@ export const getTickets = () => {
   })
 }
 
-export const getTicket = (id) => {
+export const getTicket = (tickets, id) => {
   return new Promise((resolve, request) => {
     setTimeout(() => {
       resolve(tickets.find(ticket => ticket.id === parseInt(id)))
@@ -27,6 +27,7 @@ const getnextId = () => {
 export const createNewTicket = (ticketObject) => {
   const newTicket = {
     ...ticketObject,
+    category: ticketObject.category || "General Feedback",
     updated_at: Date.now(),
     id: getnextId()
   }
