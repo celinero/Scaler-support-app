@@ -1,5 +1,7 @@
 const initialState = {
-  tickets: []
+  tickets: [],
+  categories: [],
+  loggedInUser: null
 }
 
 export default initialState;
