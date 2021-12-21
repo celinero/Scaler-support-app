@@ -6,14 +6,11 @@ import { getTicket } from '../services/ticketServices';
 import { capitalize } from '../utils/stringUtils';
 
 export const Ticket = (props) => {
-
-  // const { store } = useGlobalState();
-  // const { tickets } = store;
+  const { store } = useGlobalState();
+  const { categories } = store;
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams()
-
-
 
   useEffect(() => {
     getTicket(id)
@@ -34,10 +31,12 @@ export const Ticket = (props) => {
     )
   }
 
+  const category = categories.find(c => c._id.toString() === ticket.ticketCategoryID)
+
   return(
     <>
       <h1>{capitalize(ticket.ticketSubject)}</h1>
-      <h3>{capitalize(ticket.ticketCategoryID)}</h3>
+      <h3>{capitalize(category.name)}</h3>
       {/* <Moment fromNow>{ticket.updated_at}</Moment> - 
       <Moment>{ticket.updated_at}</Moment> */}
       <p>{ticket.ticketMessage}</p>
