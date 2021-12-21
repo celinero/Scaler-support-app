@@ -1,12 +1,16 @@
 import tickets from '../data/tickets';
+import scalerApi from '../config/api'
 
-// create promise faking fetch
-export const getTickets = () => {
-  return new Promise((resolve, request) => {
-    setTimeout(() => {
-      resolve(tickets)
-    }, 500)
-  })
+
+// create promise with axios
+export const getTickets = async () => {
+  try {
+    const response = await scalerApi.get('/tickets');
+    return response.data;
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
 }
 
 export const getTicket = (tickets, id) => {
