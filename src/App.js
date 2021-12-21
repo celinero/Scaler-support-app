@@ -5,7 +5,7 @@ import { GlobalStyle } from './styled-components/globalStyles';
 import Tickets from './components/Tickets';
 import { Ticket } from './components/Ticket';
 import { NewTicket } from './components/NewTicket';
-import { NavBar } from './components/NavBar';
+import { NavBar } from './components/Navbar';
 import stateReducer from'./config/stateReducer';
 import initialState from './config/initialState'
 import { StateContext } from './config/store';

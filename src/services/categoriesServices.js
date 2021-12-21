@@ -1,7 +1,10 @@
-import categories from '../data/categories';
+import scalerApi from "../config/api"
 
-export const getCategories = () => {
-  return new Promise((resolve, reject) => {
-    resolve(categories);
-  }) 
+export const getCategories = async () => {
+  try {
+    const response = await scalerApi.get('/categories')
+    return response.data;
+  } catch (err){
+    throw err;
+  }
 }
