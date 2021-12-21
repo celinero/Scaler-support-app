@@ -24,8 +24,12 @@ export const getTicket = async (id) => {
 }
 
 
-//faking database
-export const createNewTicket = (ticketObject) => {
- 
-
+export const createNewTicket = async (ticketObject) => {
+  try {
+    const response = await scalerApi.post(`/tickets/`, ticketObject);
+    return response.data
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
 }
