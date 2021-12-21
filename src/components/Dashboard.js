@@ -5,9 +5,7 @@ import { Link } from 'react-router-dom';
 // import Moment from 'react-moment';
 
 export const Dashboard = (props) => {
-const { ticket } = props;
-console.log("**********");
-console.log(ticket);
+  const { ticket } = props;
 
   return (
     <Card>

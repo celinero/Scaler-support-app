@@ -20,8 +20,8 @@ const App = () => {
 
   useEffect(() => {
     getCategories()
-    .then(categories => dispatch({type: "setCategories", data: categories}))
-    .catch(error => console.log(error))
+      .then(categories => dispatch({type: "setCategories", data: categories}))
+      .catch(error => console.log(error))
 
     getTickets()
       .then(tickets => dispatch({type: "setTickets", data: tickets}))

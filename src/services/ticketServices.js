@@ -15,7 +15,7 @@ export const getTickets = async () => {
 
 export const getTicket = async (id) => {
   try {
-    const response = await scalerApi.get('/tickets' + id);
+    const response = await scalerApi.get(`/tickets/${id}`);
     return response.data
   } catch (err) {
     console.log(err)

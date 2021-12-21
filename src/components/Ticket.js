@@ -7,19 +7,20 @@ import { capitalize } from '../utils/stringUtils';
 
 export const Ticket = (props) => {
 
-  const { store } = useGlobalState();
-  const { tickets } = store;
+  // const { store } = useGlobalState();
+  // const { tickets } = store;
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
-  const {id} = useParams()
+  const { id } = useParams()
+
 
 
   useEffect(() => {
     getTicket(id)
-    .then(ticket => setTicket(ticket))
-    .catch(error => console.log(error))
-    .finally(() => setLoading(false))
-  }, [tickets])
+      .then(ticket => setTicket(ticket))
+      .catch(error => console.log(error))
+      .finally(() => setLoading(false))
+  }, [id])
 
   if(loading) {
     return(
@@ -35,11 +36,11 @@ export const Ticket = (props) => {
 
   return(
     <>
-      <h1>{capitalize(ticket.subject)}</h1>
-      <h3>{capitalize(ticket.category)}</h3>
-      <Moment fromNow>{ticket.updated_at}</Moment> - 
-      <Moment>{ticket.updated_at}</Moment>
-      <p>{ticket.message}</p>
+      <h1>{capitalize(ticket.ticketSubject)}</h1>
+      <h3>{capitalize(ticket.ticketCategoryID)}</h3>
+      {/* <Moment fromNow>{ticket.updated_at}</Moment> - 
+      <Moment>{ticket.updated_at}</Moment> */}
+      <p>{ticket.ticketMessage}</p>
     </>
   )
 }
