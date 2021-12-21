@@ -15,11 +15,11 @@ export const Ticket = (props) => {
 
 
   useEffect(() => {
-    getTicket(tickets, id)
+    getTicket(id)
     .then(ticket => setTicket(ticket))
     .catch(error => console.log(error))
-    .finally(setLoading(false))
-  }, [id, tickets])
+    .finally(() => setLoading(false))
+  }, [tickets])
 
   if(loading) {
     return(

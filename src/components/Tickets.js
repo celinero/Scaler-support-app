@@ -9,6 +9,8 @@ const Tickets = (props) => {
   const {store} = useGlobalState();
   const {tickets} = store;
 
+  console.log(tickets)
+
   return(
     <>
       {loading ?
@@ -17,7 +19,7 @@ const Tickets = (props) => {
       (<CardDeck>
         {tickets
           .sort((a, b) => b.updated_at - a.updated_at)
-          .map(ticket => (<Dashboard key={ticket.id} ticket={ticket} />))
+          .map(ticket => (<Dashboard key={ticket._id} ticket={ticket} />))
         }
       </CardDeck>)
       }
