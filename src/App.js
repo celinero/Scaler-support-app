@@ -15,8 +15,8 @@ import { LogIn } from './components/LogIn';
 
 
 const App = () => {
-  const [store, dispatch] = useReducer(stateReducer, initialState)
-  // const [loading, setLoading] = useState(true)
+  const [store, dispatch] = useReducer(stateReducer, initialState);
+  const { tickets, categories } = store;
 
   useEffect(() => {
     getCategories()
@@ -26,8 +26,13 @@ const App = () => {
     getTickets()
       .then(tickets => dispatch({type: "setTickets", data: tickets}))
       .catch(error => console.log(error))
-      // .finally(() => setLoading(false))
   }, [])
+
+  if (!tickets.length || !categories.length) {
+    // TODO:
+    // display loading state
+    return <p>loading...</p>;
+  }
   
   return (
     <>
