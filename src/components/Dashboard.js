@@ -11,8 +11,6 @@ export const Dashboard = ({ ticketId }) => {
   const ticket = tickets.find(t => t._id.toString() === ticketId)
   const category = categories.find(c => c._id.toString() === ticket.ticketCategoryID)
 
-  console.log({ ticket, category })
-
   return (
     <Card>
       <Link to={`/tickets/${ticket._id}`}><h3>{capitalize(ticket.ticketSubject)}</h3></Link>

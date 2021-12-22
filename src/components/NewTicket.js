@@ -4,16 +4,18 @@ import { useGlobalState } from '../config/store';
 import { createNewTicket } from '../services/ticketServices';
 import {Block, Label, Input, TextArea, InputButton, Select, Option} from '../styled-components/index'
 import { capitalize } from '../utils/stringUtils';
+import { parseError } from '../config/api';
 
 export const NewTicket = (props) => {
   const navigate = useNavigate();
   const {store, dispatch} = useGlobalState();
   const {tickets, categories} = store;
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formState, setFormState] = useState({
     ticketSubject: "",
-    ticketCategoryId: "",
+    ticketCategoryID: "",
     ticketMessage: "",
     ticketUserID: "boblebricoleur"
   });
@@ -29,7 +31,10 @@ export const NewTicket = (props) => {
         setLoading(false)
         navigate("/")
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        const message = parseError(error);
+        setErrorMessage(message)
+      })
   }
 
   function handleChange(event) {
@@ -45,18 +50,18 @@ export const NewTicket = (props) => {
     addNewTicket(formState);
   }
 
-
   return(
     <div>
       <h1>Add a support ticket</h1>
       <form id="newTicketForm" onSubmit={handleSubmit}>
+        {errorMessage && <p>{errorMessage}</p>}
         <Block>
           <Label>Subject</Label>
-          <Input type="text" name="ticketSubject" placeholder="Enter Subject" value={formState.ticketSubject} onChange={handleChange} />
+          <Input type="text" name="ticketSubject" placeholder="Enter Subject" value={formState.ticketSubject} onChange={handleChange} required />
         </Block>
         <Block>
           <Label>Category</Label>
-          <Select name="ticketCategoryID" defaultValue="" onChange={handleChange} >
+          <Select name="ticketCategoryID" onChange={handleChange} required defaultValue="">
             <Option disabled hidden value="">Select Category:</Option>
             {categories.map(category => (
               <Option key={category._id} value={category._id}>{capitalize(category.name)}</Option>
@@ -65,7 +70,7 @@ export const NewTicket = (props) => {
         </Block>
         <Block>
           <Label>Message</Label>
-          <TextArea from="newTicket" type="text" name="ticketMessage" placeholder="Enter Message"  value={formState.ticketMessage} onChange={handleChange} />
+          <TextArea from="newTicket" type="text" name="ticketMessage" placeholder="Enter Message"  value={formState.ticketMessage} onChange={handleChange} required />
         </Block>
         <Block>
           <InputButton disabled={loading} type="submit" value="Add Ticket"></InputButton>
