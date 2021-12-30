@@ -10,6 +10,7 @@ import stateReducer from'./config/stateReducer';
 import initialState from './config/initialState'
 import { StateContext } from './config/store';
 import { getCategories } from './services/categoriesServices';
+import { validateUserSession } from './services/userServices'
 import { LogIn } from './components/LogIn';
 // import { Homepage } from './components/Homepage';
 
@@ -19,6 +20,12 @@ const App = () => {
   const { tickets, categories } = store;
 
   useEffect(() => {
+    validateUserSession()
+      .then(data => {
+        if (data) dispatch({ type: 'setLoggedInUser', data: data.email });
+      })
+      .catch(error => console.log(error))
+
     getCategories()
       .then(categories => dispatch({type: "setCategories", data: categories}))
       .catch(error => console.log(error))
@@ -45,7 +52,7 @@ const App = () => {
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/tickets/new" element={<NewTicket />} />
             <Route path="/tickets/:id" element={<Ticket />} />
-            <Route path="/auth/login" element={<LogIn />} />
+            <Route path="/login" element={<LogIn />} />
           </Routes>
         </BrowserRouter>
       </StateContext.Provider>

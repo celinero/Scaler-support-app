@@ -4,6 +4,14 @@ const scalerApi = axios.create({
   baseURL: process.env.REACT_APP_SCALER_API || "http://localhost:3000"
 });
 
+scalerApi.interceptors.request.use(req => {
+  const firebase = sessionStorage.getItem('firebase');
+  if (firebase) {
+      req.headers["Authorization"] = `Bearer ${firebase}`
+  }
+  return req; 
+})
+
 export default scalerApi;
 
 export function parseError(error) {
