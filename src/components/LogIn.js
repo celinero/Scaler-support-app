@@ -24,7 +24,7 @@ export const LogIn = (props) => {
     logInUser(formValues)
       .then(response => {
         dispatch({ type: "setLoggedInUser", data: response.email })
-        dispatch({ type: "setIdToken", idToken: response.idToken, refreshToken: response.refreshToken })
+        dispatch({ type: "setIdToken", idToken: response.idToken  })
         navigate("/")
       })
       .catch(error => {

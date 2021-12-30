@@ -30,7 +30,6 @@ const stateReducer = (state, action) => {
 
     case "setIdToken": {
       sessionStorage.setItem('idToken', action.idToken)
-      sessionStorage.setItem('refreshToken', action.refreshToken)
 
       return{
         ...state,
@@ -40,7 +39,6 @@ const stateReducer = (state, action) => {
 
     case "removeIdToken": {
       sessionStorage.removeItem('idToken')
-      sessionStorage.removeItem('refreshToken')
       return{
         ...state,
         idToken: null

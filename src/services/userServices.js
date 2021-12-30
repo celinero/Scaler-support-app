@@ -10,14 +10,11 @@ export const logInUser =  async (logInDetails) => {
 }
 
 export const validateUserSession = async () => {
-    const refreshToken = sessionStorage.getItem('refreshToken')
     const idToken = sessionStorage.getItem('idToken')
 
-    if (!refreshToken || !idToken) return null
+    if (!idToken) return null
 
-    const response = await scalerApi.post('/users/validate-session', {
-        refreshToken, idToken
-    })
+    const response = await scalerApi.post('/users/validate-session', { idToken })
 
     if (response.data.isValid) {
         return { email: response.data.fullDecodedToken.email }
