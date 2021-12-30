@@ -1,6 +1,6 @@
 const initialState = {
-  tickets: [],
-  categories: [],
+  tickets: null,
+  categories: null,
   loggedInUser: null,
   idToken: null
 }

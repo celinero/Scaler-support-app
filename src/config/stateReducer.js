@@ -24,7 +24,8 @@ const stateReducer = (state, action) => {
     case "removeLoggedInUser": {
       return{
         ...state,
-        loggedInUser: null
+        loggedInUser: null,
+        tickets: []
       }
     }
 

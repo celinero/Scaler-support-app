@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { getTickets } from './services/ticketServices';
 import { GlobalStyle } from './styled-components/globalStyles';
@@ -29,13 +29,17 @@ const App = () => {
     getCategories()
       .then(categories => dispatch({type: "setCategories", data: categories}))
       .catch(error => console.log(error))
+  }, [])
 
+  useEffect(() => {
+    if (!store.loggedInUser) return;
+    
     getTickets()
       .then(tickets => dispatch({type: "setTickets", data: tickets}))
       .catch(error => console.log(error))
-  }, [])
+  }, [store.loggedInUser])
 
-  if (!tickets.length || !categories.length) {
+  if (!tickets || !categories) {
     // TODO:
     // display loading state
     return <p>loading...</p>;

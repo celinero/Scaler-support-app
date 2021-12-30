@@ -5,9 +5,9 @@ const scalerApi = axios.create({
 });
 
 scalerApi.interceptors.request.use(req => {
-  const firebase = sessionStorage.getItem('firebase');
-  if (firebase) {
-      req.headers["Authorization"] = `Bearer ${firebase}`
+  const idToken = sessionStorage.getItem('idToken');
+  if (idToken) {
+      req.headers["Authorization"] = `Bearer ${idToken}`
   }
   return req; 
 })
