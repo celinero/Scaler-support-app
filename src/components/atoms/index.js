@@ -66,7 +66,7 @@ export const TextArea = styled.textarea`
 
 export const Block = styled.div`
     display: grid;
-    width: 100vw;
+
 `
 
 export const Select = styled.select`
@@ -79,9 +79,9 @@ export const Option = styled.option`
     
 `
 
-// export const Topbar = styled.topbar`
-//     margin: 20px;
-// `
+export const Topbar = styled.div`
+    margin: 20px;
+`
 
 
 export const Nav = styled.nav`
