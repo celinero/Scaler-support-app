@@ -9,16 +9,11 @@ export const logInUser =  async (logInDetails) => {
     }
 }
 
-export const validateUserSession = async () => {
-    const idToken = sessionStorage.getItem('idToken')
-
-    if (!idToken) return null
-
-    const response = await scalerApi.post('/users/validate-session', { idToken })
-
-    if (response.data.isValid) {
-        return { email: response.data.fullDecodedToken.email }
-    }
-
-    return null
+export const validateUserSession = async (idToken) => {
+    try {
+        const response = await scalerApi.post('/users/validate-session', { idToken })
+        return response.data;
+     } catch(error) {
+         throw error
+     }
 }
