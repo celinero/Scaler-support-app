@@ -1,3 +1,5 @@
+import initialState from 'config/initialState'
+
 const stateReducer = (state, action) => {
   switch(action.type){
     case "tickets:fetch": {
@@ -110,16 +112,9 @@ const stateReducer = (state, action) => {
       sessionStorage.removeItem('idToken');
 
       return {
-        ...state, 
-        user: {
-          data: {
-            displayName: '',
-            email: '',
-            uid: '',
-            isLoggedIn: false
-          },
-          loading: false,
-          error: false
+        ...initialState,
+        categories: {
+          ...state.categories, 
         }
       }
     }
