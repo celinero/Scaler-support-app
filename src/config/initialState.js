@@ -2,7 +2,8 @@ const initialState = {
   tickets: {
     data: [],
     loading: false,
-    error: false
+    error: false,
+    initialise: false
   },
   categories: {
     data: [],

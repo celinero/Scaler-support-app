@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useTickets } from 'config/useTickets';
 
 import { capitalize } from 'utils/stringUtils';
 
@@ -7,9 +8,10 @@ import { useGlobalState } from 'config/store';
 
 export const Ticket = () => {
   const { id } = useParams();
-  const { store: { tickets, categories }} = useGlobalState();
+  const { store: { categories } } = useGlobalState();
+  const tickets = useTickets();
   const ticket = tickets.data.find(t => t._id.toString() === id)
-  const category = categories.data.find(c => c._id.toString() === ticket.ticketCategoryID)
+  const category = categories.data.find(c => c._id.toString() === ticket?.ticketCategoryID)
 
   if (tickets.loading) {
     return <>loading...</>

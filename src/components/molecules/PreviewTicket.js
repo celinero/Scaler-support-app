@@ -11,7 +11,7 @@ import { Card } from 'components/atoms';
 export const PreviewTicket = ({ ticketId }) => {
   const { store: { tickets, categories }} = useGlobalState();
   const ticket = tickets.data.find(t => t._id.toString() === ticketId)
-  const category = categories.data.find(c => c._id.toString() === ticket.ticketCategoryID)
+  const category = categories.data.find(c => c._id.toString() === ticket?.ticketCategoryID)
 
   if (tickets.loading && !ticket) {
     return <>loading...</>

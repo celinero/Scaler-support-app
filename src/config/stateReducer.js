@@ -30,7 +30,8 @@ const stateReducer = (state, action) => {
         tickets: {
           data: action.data,
           loading: false,
-          error: false
+          error: false,
+          initialise: true
         }
       }
     }

@@ -1,31 +1,11 @@
-import React, { useEffect } from 'react';
-import { useGlobalState } from 'config/store';
-import { getTickets } from 'services/ticketServices';
-
+import React from 'react';
+import { useTickets } from 'config/useTickets';
 
 import { CardDeck } from 'components/atoms';
 import { PreviewTicket } from 'components/molecules/PreviewTicket'
 
 export const Tickets = () => {
-  const { store: { user, tickets }, dispatch } = useGlobalState();
-
-  const fetchTickets = () => {
-    dispatch({ type: 'tickets:fetch' })
-
-    getTickets()
-      .then((response) => {
-        dispatch({ type: 'tickets:set' , data: response })
-      }).catch((error) => {
-        dispatch({ type: 'tickets:error' })
-        console.log(error)
-      })
-  }
-
-  useEffect(() => {
-    if (user.data.isLoggedIn) {
-      fetchTickets()
-    }
-  }, [user.data.isLoggedIn])
+  const tickets = useTickets();
 
   return(
     <CardDeck>
