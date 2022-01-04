@@ -26,19 +26,16 @@ const App = () => {
 
     if (!idToken) return;
 
-    dispatch({ type: "user:fetch" })
-
     validateUserSession(idToken)
       .then((response) => {
+        if (response.error) return null;
+
         dispatch({ type: "user:login", data: {
           displayName: response.fullDecodedToken.name,
           email: response.fullDecodedToken.email,
           uid: response.fullDecodedToken.uid,
           idToken
         }})
-      })
-      .catch(() => {
-        dispatch({ type: "user:error" })
       })
   }, [])
 

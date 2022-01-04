@@ -20,20 +20,26 @@ export const LogIn = (props) => {
 
     logInUser(formValues)
       .then(response => {
+        if (response.error) {
+          dispatch({ type: "user:error" })
+          return;
+        }
+
         dispatch({ type: "user:login", data: {
+          displayName: response.displayName,
           email: response.email,
           uid: response.uid,
           idToken: response.idToken
         }})
       })
-      .catch(error => {
+      .catch(() => {
         dispatch({ type: "user:error" })
-        console.log(error)
       })
   }
 
   return(
     <form onSubmit={handleSubmit}>
+      {user.error && <p>Oops something went wrong</p>}
       <Block>
         <Label>Login</Label>
         <Input onChange={handleChange} type="text" name="email" placeholder="Enter your email" value={formValues.email} />
