@@ -41,7 +41,7 @@ export const Card = styled.div`
     }
 `
 
-export const InputButton = styled.input `
+export const InputButton = styled.input`
     background-color: #346dc9;
     color: white;
     padding: .2em;
@@ -50,21 +50,21 @@ export const InputButton = styled.input `
     width: 200px;
     cursor: pointer;
 `
-export const Input = styled.input `
+export const Input = styled.input`
     width: 60vw;
     margin: .5em;
 `
 
-export const Label = styled.label `
+export const Label = styled.label`
     font-size: 1.2em;
 `
-export const TextArea = styled.textarea `
+export const TextArea = styled.textarea`
     height: 200px;
     margin: .5em;
     width: 70vw;
 `
 
-export const Block = styled.div `
+export const Block = styled.div`
     display: grid;
     width: 100vw;
 `
@@ -78,8 +78,15 @@ export const Option = styled.option`
     font-size: 1.2em;
     
 `
+
+// export const Topbar = styled.topbar`
+//     margin: 20px;
+// `
+
+
 export const Nav = styled.nav`
     display: flex;
+    justify-content: space-between;
 `
 export const StyledLink = styled(Link)`
     font-size: 1.2em;
