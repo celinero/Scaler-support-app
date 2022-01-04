@@ -18,7 +18,8 @@ export const Navbar = (props) => {
 
         {user.data.isLoggedIn && <>
           {user.data.displayName} | {user.data.email}
-          <StyledLink to="/user/tickets/new">Add a post</StyledLink>
+          <StyledLink to="/user/tickets">Tickets</StyledLink>
+          <StyledLink to="/user/tickets/new">Add a ticket</StyledLink>
           <StyledLink onClick={handleLogOut} to="/">Log out</StyledLink>
         </>}
      </Nav>
