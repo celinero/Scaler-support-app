@@ -7,6 +7,7 @@ import initialState from './config/initialState'
 import { StateContext } from './config/store';
 
 import { validateUserSession } from 'services/userServices';
+import { getCategories } from 'services/categoriesServices';
 
 import { Homepage } from 'components/pages/Homepage';
 import { LogIn } from 'components/pages/LogIn';
@@ -21,7 +22,7 @@ import { Navbar } from 'components/molecules/Navbar';
 const App = () => {
   const [store, dispatch] = useReducer(stateReducer, initialState);
 
-  useEffect(() => {
+  const syncUser = () => {
     const idToken = sessionStorage.getItem('idToken');
 
     if (!idToken) return;
@@ -37,6 +38,23 @@ const App = () => {
           idToken
         }})
       })
+  }
+
+  const fetchCategories = () => {
+    dispatch({ type: 'categories:fetch' })
+
+    getCategories()
+      .then((response) => {
+        dispatch({ type: 'categories:set' , data: response })
+      }).catch((error) => {
+        dispatch({ type: 'categories:error' })
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    syncUser();
+    fetchCategories();
   }, [])
 
   return (
