@@ -1,32 +1,31 @@
 import React from 'react';
-// import Moment from 'react-moment';
-// import { useParams } from 'react-router';
-// import { useGlobalState } from '../config/store';
-// import { capitalize } from '../utils/stringUtils';
+import { useParams } from 'react-router-dom';
 
-export const Ticket = (props) => {
-  // const { id } = useParams();
-  // const { store } = useGlobalState();
-  // const { tickets, categories } = store;
+import { capitalize } from 'utils/stringUtils';
 
-  // const ticket = tickets.find(t => t._id.toString() === id);
+import { useGlobalState } from 'config/store';
 
-  // if (!ticket) {
-  //   return (
-  //     <p>Ooops couldn't find the ticket</p>
-  //   )
-  // }
+export const Ticket = () => {
+  const { id } = useParams();
+  const { store: { tickets, categories }} = useGlobalState();
+  const ticket = tickets.data.find(t => t._id.toString() === id)
+  const category = categories.data.find(c => c._id.toString() === ticket.ticketCategoryID)
 
-  // const category = categories.find(c => c._id.toString() === ticket.ticketCategoryID)
+  if (tickets.loading) {
+    return <>loading...</>
+  }
 
-  return(
-    <div>ticket</div>
-    // <>
-    //   <h1>{capitalize(ticket.ticketSubject)}</h1>
-    //   <h3>{capitalize(category.name)}</h3>
-    //   {/* <Moment fromNow>{ticket.updated_at}</Moment> - 
-    //   <Moment>{ticket.updated_at}</Moment> */}
-    //   <p>{ticket.ticketMessage}</p>
-    // </>
+  if (!ticket) {
+    return <>oops something went wrong</>
+  }
+
+  return (
+    <div>
+     <h3>{capitalize(ticket.ticketSubject)}</h3>
+      {categories.loading && <h4>loading...</h4>}
+      {!categories.loading && !category && <h4>Unknown category</h4>}
+      {!categories.loading && category && <h4>{category.name}</h4>}
+      <p>{ticket.ticketMessage}</p>
+    </div>
   )
 }

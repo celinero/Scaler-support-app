@@ -29,7 +29,7 @@ export const Tickets = () => {
 
   return(
     <CardDeck>
-      {tickets.loading && <>loading....</>}
+      {tickets.loading && !tickets.data.length && <>loading....</>}
       {tickets.error && <>sonething went wrong....</>}
       {tickets
         .data.sort((a, b) => b.updated_at - a.updated_at)

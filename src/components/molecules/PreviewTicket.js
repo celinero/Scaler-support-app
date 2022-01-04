@@ -13,7 +13,7 @@ export const PreviewTicket = ({ ticketId }) => {
   const ticket = tickets.data.find(t => t._id.toString() === ticketId)
   const category = categories.data.find(c => c._id.toString() === ticket.ticketCategoryID)
 
-  if (tickets.loading) {
+  if (tickets.loading && !ticket) {
     return <>loading...</>
   }
 
@@ -23,7 +23,7 @@ export const PreviewTicket = ({ ticketId }) => {
 
   return (
     <Card>
-      <Link to={`/tickets/${ticket._id}`}><h3>{capitalize(ticket.ticketSubject)}</h3></Link>
+      <Link to={`/user/tickets/${ticket._id}`}><h3>{capitalize(ticket.ticketSubject)}</h3></Link>
       {categories.loading && <h4>loading...</h4>}
       {!categories.loading && !category && <h4>Unknown category</h4>}
       {!categories.loading && category && <h4>{category.name}</h4>}

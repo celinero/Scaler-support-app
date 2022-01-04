@@ -4,7 +4,7 @@ const stateReducer = (state, action) => {
       return {
         ...state, 
         tickets: {
-          data: [],
+          ...state.tickets,
           loading: true,
           error: false
         }
