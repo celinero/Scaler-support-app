@@ -11,6 +11,7 @@ const initialState = {
   },
   user: {
     data: {
+      displayName: '',
       email: '',
       uid: '',
       isLoggedIn: false

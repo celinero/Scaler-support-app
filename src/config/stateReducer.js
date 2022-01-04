@@ -95,6 +95,7 @@ const stateReducer = (state, action) => {
         ...state, 
         user: {
           data: {
+            displayName: action.data.displayName,
             email: action.data.email,
             uid: action.data.uid,
             isLoggedIn: true
@@ -112,6 +113,7 @@ const stateReducer = (state, action) => {
         ...state, 
         user: {
           data: {
+            displayName: '',
             email: '',
             uid: '',
             isLoggedIn: false

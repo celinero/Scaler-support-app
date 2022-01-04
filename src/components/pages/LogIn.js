@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGlobalState } from 'config/store';
 import { logInUser } from 'services/userServices';
-import { Block, Label, Input, InputButton } from 'components/atoms';
+import { Block, Label, Input} from 'components/atoms';
 
 export const LogIn = (props) => {
   const [formValues, setFormValues] = useState({ email: "", password:"" });

@@ -31,6 +31,7 @@ const App = () => {
     validateUserSession(idToken)
       .then((response) => {
         dispatch({ type: "user:login", data: {
+          displayName: response.fullDecodedToken.name,
           email: response.fullDecodedToken.email,
           uid: response.fullDecodedToken.uid,
           idToken
