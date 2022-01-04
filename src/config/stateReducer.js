@@ -24,7 +24,25 @@ const stateReducer = (state, action) => {
     case "removeLoggedInUser": {
       return{
         ...state,
-        loggedInUser: null
+        loggedInUser: null,
+        tickets: []
+      }
+    }
+
+    case "setIdToken": {
+      sessionStorage.setItem('idToken', action.idToken)
+
+      return{
+        ...state,
+        idToken: action.idToken
+      }
+    }
+
+    case "removeIdToken": {
+      sessionStorage.removeItem('idToken')
+      return{
+        ...state,
+        idToken: null
       }
     }
 

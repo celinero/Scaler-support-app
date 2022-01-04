@@ -1,7 +1,8 @@
 const initialState = {
-  tickets: [],
-  categories: [],
-  loggedInUser: null
+  tickets: null,
+  categories: null,
+  loggedInUser: null,
+  idToken: null
 }
 
 export default initialState;

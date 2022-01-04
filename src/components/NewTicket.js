@@ -29,7 +29,7 @@ export const NewTicket = (props) => {
           data: [...tickets, newTicket]
         })
         setLoading(false)
-        navigate("/")
+        navigate("/tickets/:id")
       })
       .catch(error => {
         const message = parseError(error);
