@@ -26,7 +26,7 @@ export const getTicket = async (id) => {
 
 export const createNewTicket = async (ticketObject) => {
   try {
-    const response = await scalerApi.post(`/tickets/`, ticketObject);
+    const response = await scalerApi.post(`/tickets`, ticketObject);
     return response.data
   } catch (err) {
     console.log(err)
