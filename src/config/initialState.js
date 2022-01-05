@@ -3,7 +3,7 @@ const initialState = {
     data: [],
     loading: false,
     error: false,
-    initialise: false
+    completed: false
   },
   categories: {
     data: [],

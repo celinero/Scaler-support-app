@@ -6,7 +6,7 @@ import { getTickets } from 'services/ticketServices';
 
 export const useTickets = () => {
   const { store: { user, tickets }, dispatch } = useGlobalState();
-  const shouldFetch = user.data.isLoggedIn && !tickets.loading && !tickets.initialise;
+  const shouldFetch = user.data.isLoggedIn && !tickets.loading && !tickets.completed;
 
   const fetchTickets = useCallback(() => {
     dispatch({ type: 'tickets:fetch' })

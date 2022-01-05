@@ -20,7 +20,7 @@ const stateReducer = (state, action) => {
           data: [],
           loading: false,
           error: true,
-          initialise: true
+          completed: true
         }
       }
     }
@@ -32,7 +32,7 @@ const stateReducer = (state, action) => {
           data: action.data,
           loading: false,
           error: false,
-          initialise: true
+          completed: true
         }
       }
     }

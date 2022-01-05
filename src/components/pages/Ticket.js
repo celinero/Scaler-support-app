@@ -13,7 +13,7 @@ export const Ticket = () => {
   const ticket = tickets.data.find(t => t._id.toString() === id)
   const category = categories.data.find(c => c._id.toString() === ticket?.ticketCategoryID)
 
-  if (tickets.loading || !tickets.initialise) {
+  if (tickets.loading || !tickets.completed) {
     return <>loading...</>
   }
 

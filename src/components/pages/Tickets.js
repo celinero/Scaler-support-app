@@ -11,7 +11,7 @@ export const Tickets = () => {
     return <>oops something went wrong</>
   }
 
-  if (tickets.loading || !tickets.initialise) {
+  if (tickets.loading || !tickets.completed) {
     return <>loading...</>
   }
 
