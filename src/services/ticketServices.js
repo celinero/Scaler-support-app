@@ -1,6 +1,4 @@
-import tickets from '../data/tickets';
 import scalerApi from '../config/api'
-
 
 // create promise with axios
 export const getTickets = async () => {

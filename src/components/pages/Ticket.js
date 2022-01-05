@@ -13,11 +13,11 @@ export const Ticket = () => {
   const ticket = tickets.data.find(t => t._id.toString() === id)
   const category = categories.data.find(c => c._id.toString() === ticket?.ticketCategoryID)
 
-  if (tickets.loading) {
+  if (tickets.loading || !tickets.initialise) {
     return <>loading...</>
   }
 
-  if (!ticket) {
+  if (tickets.error || !tickets) {
     return <>oops something went wrong</>
   }
 

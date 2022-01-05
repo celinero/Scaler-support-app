@@ -19,7 +19,8 @@ const stateReducer = (state, action) => {
         tickets: {
           data: [],
           loading: false,
-          error: true
+          error: true,
+          initialise: true
         }
       }
     }

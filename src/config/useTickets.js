@@ -1,13 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 
 import { useGlobalState } from 'config/store';
 
 import { getTickets } from 'services/ticketServices';
 
 export const useTickets = () => {
-  const { store: { user, tickets, categories }, dispatch } = useGlobalState();
+  const { store: { user, tickets }, dispatch } = useGlobalState();
+  const shouldFetch = user.data.isLoggedIn && !tickets.loading && !tickets.initialise;
 
-  const fetchTickets = () => {
+  const fetchTickets = useCallback(() => {
     dispatch({ type: 'tickets:fetch' })
 
     getTickets()
@@ -17,13 +18,13 @@ export const useTickets = () => {
         dispatch({ type: 'tickets:error' })
         console.log(error)
       })
-  }
+  }, [dispatch])
 
   useEffect(() => {
-    if (user.data.isLoggedIn && !tickets.loading && !tickets.initialise) {
+    if (shouldFetch) {
       fetchTickets()
     }
-  }, [user.data.isLoggedIn])
+  }, [shouldFetch, fetchTickets])
 
   return {
     ...tickets,

@@ -7,10 +7,16 @@ import { PreviewTicket } from 'components/molecules/PreviewTicket'
 export const Tickets = () => {
   const tickets = useTickets();
 
+  if (tickets.error) {
+    return <>oops something went wrong</>
+  }
+
+  if (tickets.loading || !tickets.initialise) {
+    return <>loading...</>
+  }
+
   return(
     <CardDeck>
-      {tickets.loading && !tickets.data.length && <>loading....</>}
-      {tickets.error && <>sonething went wrong....</>}
       {tickets
         .data.sort((a, b) => b.updated_at - a.updated_at)
         .map(ticket => (<PreviewTicket key={ticket._id} ticketId={ticket._id} />))

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useGlobalState } from 'config/store';
 import { useTickets } from 'config/useTickets';
 import { createNewTicket } from 'services/ticketServices';
-import {Block, Label, Input, TextArea, InputButton, Select, Option} from 'components/atoms'
+import {Block, Label, Input, TextArea, Select, Option} from 'components/atoms'
 import { capitalize } from 'utils/stringUtils';
 
 
