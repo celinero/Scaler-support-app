@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 
 import { capitalize, trunctcate } from 'utils/stringUtils';
 
@@ -27,7 +26,7 @@ export const PreviewTicket = ({ ticketId }) => {
       {categories.loading && <h4>loading...</h4>}
       {!categories.loading && !category && <h4>Unknown category</h4>}
       {!categories.loading && category && <h4>{category.name}</h4>}
-      <p>{trunctcate(ticket.ticketMessage, 100)}</p>
+      <p>{trunctcate(ticket.ticketMessages[0].ticketMessage, 100)}</p>
     </Card>
   )
 }

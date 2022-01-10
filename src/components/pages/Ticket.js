@@ -24,13 +24,22 @@ export const Ticket = () => {
 
   return (
     <Container>
-      <Card>
-        <TitleH2>{capitalize(ticket.ticketSubject)}</TitleH2>
-        {categories.loading && <h4>loading...</h4>}
-        {!categories.loading && !category && <h4>Unknown category</h4>}
-        {!categories.loading && category && <h4>{category.name}</h4>}
-        <p>{ticket.ticketMessage}</p>
-      </Card>
+      {ticket.ticketMessages
+      .sort((a, b) => a.ticketDate - b.ticketDate)
+      .map(({ ticketMessage, ticketDate }, index) => {
+        return <Card key={ticketDate}>
+          {index === 0 && (
+            <>
+              <TitleH2>{capitalize(ticket.ticketSubject)}</TitleH2>
+              {categories.loading && <h4>loading...</h4>}
+              {!categories.loading && !category && <h4>Unknown category</h4>}
+              {!categories.loading && category && <h4>{category.name}</h4>}
+            </>
+          )}
+          <p>{new Date(ticketDate).toString()}</p>
+          <p>{ticketMessage}</p>
+        </Card>
+      })}
       <InnerContainerEnd>
         <StyledLinkButton to={`/user/tickets/${ticket._id}`}>Update</StyledLinkButton>
         <StyledLinkButton to={`/user/tickets/`}>Back</StyledLinkButton>
