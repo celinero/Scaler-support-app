@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { capitalize, trunctcate } from 'utils/stringUtils';
 
 import { useGlobalState } from 'config/store';
 
-import { Card } from 'components/atoms';
+import { Card, StyledLink } from 'components/atoms';
 
 
 export const PreviewTicket = ({ ticketId }) => {
@@ -23,7 +23,7 @@ export const PreviewTicket = ({ ticketId }) => {
 
   return (
     <Card>
-      <Link to={`/user/tickets/${ticket._id}`}><h3>{capitalize(ticket.ticketSubject)}</h3></Link>
+      <StyledLink to={`/user/tickets/${ticket._id}`}><h3>{capitalize(ticket.ticketSubject)}</h3></StyledLink>
       {categories.loading && <h4>loading...</h4>}
       {!categories.loading && !category && <h4>Unknown category</h4>}
       {!categories.loading && category && <h4>{category.name}</h4>}
