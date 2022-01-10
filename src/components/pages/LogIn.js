@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useGlobalState } from 'config/store';
 import { logInUser } from 'services/userServices';
 import { Block, Label, Input} from 'components/atoms';
 
 export const LogIn = (props) => {
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({ email: "", password:"" });
   const { store: { user }, dispatch } = useGlobalState();
 
@@ -31,10 +33,12 @@ export const LogIn = (props) => {
           uid: response.uid,
           idToken: response.idToken
         }})
+        navigate("/user/tickets")
       })
       .catch(() => {
         dispatch({ type: "user:error" })
       })
+      
   }
 
   return(

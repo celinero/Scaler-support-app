@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useGlobalState } from 'config/store';
 import { useTickets } from 'config/useTickets';
 import { createNewTicket } from 'services/ticketServices';
@@ -7,6 +8,7 @@ import { capitalize } from 'utils/stringUtils';
 
 
 export const NewTicket = (props) => {
+  const navigate = useNavigate();
   const { store: { user, categories }, dispatch } = useGlobalState();
   const tickets = useTickets()
 
@@ -25,6 +27,7 @@ export const NewTicket = (props) => {
     })
       .then(() => {
         tickets.refresh()
+        navigate("/user/tickets")
       })
       .catch(error => {
         console.log(error)
