@@ -1,32 +1,48 @@
 import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 
-export const CardDeck = styled.div`
+export const Container = styled.div`
+    padding: 1rem;
+    margin: 1rem;
+`
+export const InnerContainerEnd = styled.div `
     display: flex;
-    width: 80%; 
-    margin: auto; 
-    display: flex; 
-    flex-wrap: wrap;
-    justify-content: space-between; 
-    row-gap: 0.75rem;
-    column-gap: 0.75rem;
+    justify-content: flex-end;
+`
+
+export const InnerContainer = styled.div `
+    display: flex;
+    justify-content: space-between;
+`
+
+
+// export const CardDeck = styled.div`
+//     display: flex;
+//     width: 80%; 
+//     margin: auto; 
+//     display: flex; 
+//     flex-wrap: wrap;
+//     justify-content: space-between; 
+//     row-gap: 0.75rem;
+//     column-gap: 0.75rem;
     
-    @media (max-width: 768px) {
-    width: 95%
+//     @media (max-width: 768px) {
+//     width: 95%
     
-    }
+//     }
     
-    @media (max-width: 480px) {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    }
-  `
+//     @media (max-width: 480px) {
+//     flex-direction: column;
+//     flex-wrap: nowrap;
+//     }
+//   `
 
 export const Card = styled.div`
-    flex: 0 1 24%;
+    
     background-color: white;
     box-sizing: border-box;
-    padding: 0.25rem;
+    padding: 1rem;
+    margin: 1rem;
     border: 1px solid black;
     border-radius: 10px;
     transition: box-shadow 0.3s;
@@ -86,15 +102,55 @@ export const Topbar = styled.div`
 
 export const Nav = styled.nav`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    background-color: #096b75;
 `
-export const StyledLink = styled(Link)`
+export const NavLink = styled(Link)`
     font-size: 1.2em;
     text-decoration: none;
     margin: 1em;
     padding: .2em .5em;
-    color: blue;
+    color: white;
     &:hover{
-        color: orange;
+        color: #c1e4e8;
     }
+`
+
+export const StyledLink = styled(Link)`
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #096b75;
+    &:hover{
+        color: #c1e4e8;
+    }
+`
+
+export const TitleH1 = styled.h1`
+    color: #096b75;
+`
+export const TitleH2 = styled.h2`
+    color: #096b75;
+`
+export const TitleH3 = styled.h3`
+    color: #096b75;
+`
+
+
+export const TitleH4 = styled.h4`
+    color: #096b75;
+`
+
+export const StyledLinkButton = styled(Link) `
+    font-size: 1.2em;    
+    text-decoration: none;
+    color: #096b75;
+    background-color: white;
+    &:hover{
+        color: #c1e4e8;
+    }
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-right: 1rem;
 `
