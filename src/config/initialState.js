@@ -1,8 +1,25 @@
 const initialState = {
-  tickets: null,
-  categories: null,
-  loggedInUser: null,
-  idToken: null
+  tickets: {
+    data: [],
+    loading: false,
+    error: false,
+    completed: false
+  },
+  categories: {
+    data: [],
+    loading: false,
+    error: false
+  },
+  user: {
+    data: {
+      displayName: '',
+      email: '',
+      uid: '',
+      isLoggedIn: false
+    },
+    loading: false,
+    error: false
+  },
 }
 
 export default initialState;

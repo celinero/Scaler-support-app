@@ -1,65 +1,76 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getTickets } from './services/ticketServices';
-import { GlobalStyle } from './styled-components/globalStyles';
-import Tickets from './components/Tickets';
-import { Homepage } from './components/Homepage';
-import { Ticket } from './components/Ticket';
-import { NewTicket } from './components/NewTicket';
-import { NavBar } from './components/Navbar';
+import { GlobalStyle } from './components/atoms/globalStyles';
+
 import stateReducer from'./config/stateReducer';
 import initialState from './config/initialState'
 import { StateContext } from './config/store';
-import { getCategories } from './services/categoriesServices';
-import { validateUserSession } from './services/userServices'
-import { LogIn } from './components/LogIn';
-import { SignUp } from './components/SignUp';
+
+import { validateUserSession } from 'services/userServices';
+import { getCategories } from 'services/categoriesServices';
+
+import { Homepage } from 'components/pages/Homepage';
+import { LogIn } from 'components/pages/LogIn';
+import { SignUp } from 'components/pages/SignUp';
+import { Tickets } from 'components/pages/Tickets';
+import { NewTicket } from 'components/pages/NewTicket';
+import { Ticket } from 'components/pages/Ticket';
+
+import { Navbar } from 'components/molecules/Navbar';
 
 
 const App = () => {
   const [store, dispatch] = useReducer(stateReducer, initialState);
-  const { tickets, categories } = store;
 
-  useEffect(() => {
-    validateUserSession()
-      .then(data => {
-        if (data) dispatch({ type: 'setLoggedInUser', data: data.email });
+  const syncUser = () => {
+    const idToken = sessionStorage.getItem('idToken');
+
+    if (!idToken) return;
+
+    validateUserSession(idToken)
+      .then((response) => {
+        if (response.error) return null;
+
+        dispatch({ type: "user:login", data: {
+          displayName: response.fullDecodedToken.name,
+          email: response.fullDecodedToken.email,
+          uid: response.fullDecodedToken.uid,
+          idToken
+        }})
       })
-      .catch(error => console.log(error))
+  }
+
+  const fetchCategories = () => {
+    dispatch({ type: 'categories:fetch' })
 
     getCategories()
-      .then(categories => dispatch({type: "setCategories", data: categories}))
-      .catch(error => console.log(error))
-  }, [])
+      .then((response) => {
+        dispatch({ type: 'categories:set' , data: response })
+      }).catch((error) => {
+        dispatch({ type: 'categories:error' })
+        console.log(error)
+      })
+  }
 
   useEffect(() => {
-    if (!store.loggedInUser) return <LogIn />;
+    syncUser();
+    fetchCategories();
+  }, [])
 
-    getTickets()
-      .then(tickets => dispatch({type: "setTickets", data: tickets}))
-      .catch(error => console.log(error))
-  }, [store.loggedInUser])
-
-  // if (!tickets || !categories) {
-  //   // TODO:
-  //   // display loading state
-  //   // return <p>loading...</p>;
-  //   return <Homepage />;
-  // }
-  
   return (
     <>
       <GlobalStyle />
-      <StateContext.Provider value={{store, dispatch}}>
+      <StateContext.Provider value={{ store, dispatch }}>
+
         <BrowserRouter>
-          <NavBar />
+          <Navbar />
           <Routes>
-            <Route path="/tickets" element={<Tickets />} />
-            <Route path="/tickets/new" element={<NewTicket />} />
-            <Route path="/tickets/:id" element={<Ticket />} />
+            <Route exact path="/" element={<Homepage />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route exact path="/" element={<Homepage />} />
+            <Route path="/user/tickets" element={<Tickets />} />
+            <Route path="/user/tickets/new" element={<NewTicket />} />
+            <Route path="/user/tickets/:id" element={<Ticket />} />
           </Routes>
         </BrowserRouter>
       </StateContext.Provider>

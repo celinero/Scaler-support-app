@@ -1,6 +1,4 @@
-import tickets from '../data/tickets';
 import scalerApi from '../config/api'
-
 
 // create promise with axios
 export const getTickets = async () => {
@@ -26,7 +24,7 @@ export const getTicket = async (id) => {
 
 export const createNewTicket = async (ticketObject) => {
   try {
-    const response = await scalerApi.post(`/tickets/`, ticketObject);
+    const response = await scalerApi.post(`/tickets`, ticketObject);
     return response.data
   } catch (err) {
     console.log(err)
