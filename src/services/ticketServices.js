@@ -31,3 +31,13 @@ export const createNewTicket = async (ticketObject) => {
     throw err
   }
 }
+
+export const addMessageToTicket = async (id, ticketObject) => {
+  try {
+    const response = await scalerApi.post(`/tickets/${id}/message`, ticketObject);
+    return response.data
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
