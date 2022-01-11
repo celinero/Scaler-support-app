@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTickets } from 'config/useTickets';
 
 import { Container, InnerContainerEnd, Card, TitleH2, StyledLinkButton, Block, Label, TextArea} from 'components/atoms';
 import { capitalize } from 'utils/stringUtils';
+import { updateTicket } from 'services/ticketServices';
 
 import { useGlobalState } from 'config/store';
 
@@ -15,6 +16,15 @@ export const Ticket = () => {
   const tickets = useTickets();
   const ticket = tickets.data.find(t => t._id.toString() === id)
   const category = categories.data.find(c => c._id.toString() === ticket?.ticketCategoryID)
+
+  useEffect(() => {
+    if (!ticket?.ticketSeen) {
+      updateTicket(id, { ticketSeen: true })
+        .then(() => {
+          tickets.refresh();
+        });
+    }
+  }, [ticket?.ticketSeen])
 
   if (!tickets.completed) {
     return <>loading...</>
@@ -50,6 +60,14 @@ export const Ticket = () => {
       <br />
       <br />
       <InnerContainerEnd>
+
+        <button onClick={() => {
+          updateTicket(id, { ticketResolved: !ticket.ticketResolved })
+            .then(() => {
+              tickets.refresh();
+            });
+        }}>{ticket.ticketResolved ? 'unresolve' : 'resolve'}</button>
+
         <StyledLinkButton to={`/user/tickets/`}>Back</StyledLinkButton>
       </InnerContainerEnd>
     </Container>

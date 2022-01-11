@@ -26,6 +26,8 @@ export const PreviewTicket = ({ ticketId }) => {
       {categories.loading && <h4>loading...</h4>}
       {!categories.loading && !category && <h4>Unknown category</h4>}
       {!categories.loading && category && <h4>{category.name}</h4>}
+      {!ticket.ticketSeen && 'updated!'}
+      {ticket.ticketResolved && 'resolved!'}
       <p>{trunctcate(ticket.ticketMessages[0].ticketMessage, 100)}</p>
     </Card>
   )

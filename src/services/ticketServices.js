@@ -21,6 +21,16 @@ export const getTicket = async (id) => {
   }
 }
 
+export const updateTicket = async (id, ticketObject) => {
+  try {
+    const response = await scalerApi.put(`/tickets/${id}`, ticketObject);
+    return response.data
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
 
 export const createNewTicket = async (ticketObject) => {
   try {
