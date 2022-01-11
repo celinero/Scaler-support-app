@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useGlobalState } from 'config/store';
 import { useTickets } from 'config/useTickets';
 import { createNewTicket } from 'services/ticketServices';
-import {Block, Label, Input, TextArea, Select, Option} from 'components/atoms'
+import { OuterContainerWhite, FormTicket, Title, InputContainer, InputTicket, CutTicket, Select, Placeholder, Submit, Option, TextArea } from 'components/atoms/form';
 import { capitalize } from 'utils/stringUtils';
 
 
@@ -48,30 +48,35 @@ export const NewTicket = (props) => {
   }
 
   return(
-    <div>
-      <h1>Add a support ticket</h1>
-      <form id="newTicketForm" onSubmit={handleSubmit}>
-        <Block>
-          <Label>Subject</Label>
-          <Input type="text" name="ticketSubject" placeholder="Enter Subject" value={formState.ticketSubject} onChange={handleChange} required />
-        </Block>
-        <Block>
-          <Label>Category</Label>
+    <OuterContainerWhite>
+      <FormTicket id="newTicketForm" onSubmit={handleSubmit}>
+      <Title>Create a new a support ticket</Title>
+        <InputContainer>
+          <InputTicket type="text" name="ticketSubject" placeholder=" " value={formState.ticketSubject} onChange={handleChange} required />
+          <CutTicket className="cutTicket" />
+          <Placeholder className="placeholder">
+          Subject
+          </Placeholder>
+        </InputContainer>
+        <InputContainer>
           <Select name="ticketCategoryID" onChange={handleChange} required defaultValue="">
-            <Option disabled hidden value="">Select Category:</Option>
+            <Option disabled hidden value=""></Option>
             {categories.data.map(category => (
               <Option key={category._id} value={category._id}>{capitalize(category.name)}</Option>
             ))}
           </Select>
-        </Block>
-        <Block>
-          <Label>Message</Label>
-          <TextArea from="newTicket" type="text" name="ticketMessage" placeholder="Enter Message"  value={formState.ticketMessage} onChange={handleChange} required />
-        </Block>
-        <Block>
-          <button type="submit" disabled={tickets.loading}>Add Ticket</button>
-        </Block>
-      </form>
-    </div>
+          <CutTicket className="cutTicket" />
+          <Placeholder className="placeholder">
+          Category
+          </Placeholder>
+        </InputContainer>
+        <InputContainer>
+          <TextArea from="newTicket" type="text" name="ticketMessage" placeholder=" "  value={formState.ticketMessage} onChange={handleChange} required />
+          <CutTicket className="cutTicket" />
+          <Placeholder className="placeholder">Message</Placeholder>
+        </InputContainer>
+        <Submit type="submit" disabled={tickets.loading}>Add Ticket</Submit>
+      </FormTicket>
+      </OuterContainerWhite>
   )
 }

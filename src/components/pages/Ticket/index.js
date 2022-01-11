@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTickets } from 'config/useTickets';
 
-import { Container, InnerContainerEnd, Card, TitleH2, StyledLinkButton, Block, Label, TextArea} from 'components/atoms';
+import { Container, InnerContainerEnd, Card, TitleH2, StyledLinkButton } from 'components/atoms';
 import { capitalize } from 'utils/stringUtils';
 import { updateTicket } from 'services/ticketServices';
 
@@ -17,7 +17,7 @@ export const Ticket = () => {
   const ticket = tickets.data.find(t => t._id.toString() === id)
   const category = categories.data.find(c => c._id.toString() === ticket?.ticketCategoryID)
 
-  useEffect(() => {
+  useEffect((id, tickets) => {
     if (!ticket?.ticketSeen) {
       updateTicket(id, { ticketSeen: true })
         .then(() => {
