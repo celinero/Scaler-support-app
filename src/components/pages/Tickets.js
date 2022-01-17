@@ -22,8 +22,7 @@ export const Tickets = () => {
       <InnerContainer>
         <div>
           <TitleH1>Hi  {user.data.displayName},</TitleH1>
-          {/* <TitleH2>Licence number: </TitleH2> */}
-          {/* {user.data.licenseNumber} */}
+          {/* <TitleH2>Licence number: {user.data.licenseNumber}</TitleH2> */}
           <TitleH3>You have {tickets.data.length} support tickets found:</TitleH3>
         </div>
         <Card>

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useTickets } from 'config/useTickets';
 
 import { Container, InnerContainerEnd, Card, TitleH2, StyledLinkButton } from 'components/atoms';
+import { Button, Status } from 'components/atoms/ticket';
 import { capitalize } from 'utils/stringUtils';
 import { updateTicket } from 'services/ticketServices';
 
@@ -36,6 +37,11 @@ export const Ticket = () => {
 
   return (
     <Container>
+      <Status>
+        {ticket.ticketResolved && 'Resolved'}
+        {!ticket.ticketSeen && 'Updated'}
+        {!ticket.ticketResolved && 'Pending'}
+      </Status>
       {ticket.ticketMessages
       .sort((a, b) => a.ticketDate - b.ticketDate)
       .map(({ ticketMessage, ticketDate }, index) => {
@@ -59,14 +65,14 @@ export const Ticket = () => {
 
       <br />
       <br />
-      <InnerContainerEnd>
 
-        <button onClick={() => {
+      <InnerContainerEnd>
+        <Button onClick={() => {
           updateTicket(id, { ticketResolved: !ticket.ticketResolved })
             .then(() => {
               tickets.refresh();
             });
-        }}>{ticket.ticketResolved ? 'unresolve' : 'resolve'}</button>
+        }}>{ticket.ticketResolved ? 'Unresolve' : 'Resolve'}</Button>
 
         <StyledLinkButton to={`/user/tickets/`}>Back</StyledLinkButton>
       </InnerContainerEnd>

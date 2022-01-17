@@ -58,14 +58,15 @@ export const InputContainer = styled.div`
   position: relative;
   width: 100%;
   margin-top: 40px;
+  margin-bottom: 40px;
 `
 
 export const Input = styled.input`
   background-color: #303245;
+  color: white;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
-  color: #eee;
   font-size: 18px;
   height: 100%;
   outline: 0;
@@ -83,29 +84,31 @@ export const Input = styled.input`
   }
 
   &:not(:placeholder-shown) ~ .placeholder {
-    color: #808097;
+    color: white;
   }
   
   &:focus ~ .placeholder {
-    color: #dc2f55;
+    color: white;
   }
 `
 
 export const InputTicket = styled.input`
   background-color: #d1e0e0;
+  color: black;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
-  color: black;
   font-size: 18px;
   height: 100%;
   outline: 0;
   padding: 20px 20px;
+  margin-bottom: 20px;
   width: 100%;
 
-  &:focus ~ .cut,
-  &:not(:placeholder-shown) ~ .cut {
+  &:focus ~ .cutTicket,
+  &:not(:placeholder-shown) ~ .cutTicket {
     transform: translateY(8px);
+    background-color: #d1e0e0;
   }
 
   &:focus ~ .placeholder,
@@ -114,11 +117,11 @@ export const InputTicket = styled.input`
   }
 
   &:not(:placeholder-shown) ~ .placeholder {
-    color: #808097;
+    color: #096b75;
   }
   
   &:focus ~ .placeholder {
-    color: #dc2f55;
+    color: #096b75;
   }
 `
 
@@ -133,9 +136,10 @@ export const Select = styled.select`
   width: 100%;
   height: 100%;
 
-  &:focus ~ .cut,
-  &:not(:placeholder-shown) ~ .cut {
+  &:focus ~ .cutTicket,
+  &:not(:placeholder-shown) ~ .cutTicket {
     transform: translateY(8px);
+    background-color: #d1e0e0;
   }
 
   &:focus ~ .placeholder,
@@ -144,11 +148,11 @@ export const Select = styled.select`
   }
 
   &:not(:placeholder-shown) ~ .placeholder {
-    color: #808097;
+    color: #096b75;
   }
   
   &:focus ~ .placeholder {
-    color: #dc2f55;
+    color: #096b75;
   }
 `
 export const Option = styled.option`
@@ -158,8 +162,6 @@ export const Option = styled.option`
 
 export const TextArea = styled.textarea`
   background-color: #d1e0e0;
-  height: 200px;
-
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
@@ -168,11 +170,12 @@ export const TextArea = styled.textarea`
   outline: 0;
   padding: 20px 20px;
   width: 100%;
-
+  min-height: 100px;
 
   &:focus ~ .cutTicket,
   &:not(:placeholder-shown) ~ .cutTicket {
   transform: translateY(8px);
+  background-color: #d1e0e0;
   }
 
   &:focus ~ .placeholder,
@@ -181,11 +184,11 @@ export const TextArea = styled.textarea`
   }
 
   &:not(:placeholder-shown) ~ .placeholder {
-    color: #808097;
+    color: #096b75;
   }
   
   &:focus ~ .placeholder {
-    color: #dc2f55;
+    color: #096b75;
   }
 `
 
@@ -193,29 +196,29 @@ export const TextArea = styled.textarea`
 export const Cut = styled.div`
   background-color: #15172b;
   border-radius: 10px; 
+  width: 76px;
   height: 20px;
   left: 20px;
   position: absolute;
   top: -20px;
   transform: translateY(0);
   transition: transform 200ms;
-  width: 76px;
 `
 
 export const CutTicket = styled.div`
   background-color: white;
   border-radius: 10px; 
+  width: 76px;
   height: 20px;
   left: 20px;
   position: absolute;
   top: -20px;
   transform: translateY(0);
   transition: transform 200ms;
-  width: 76px;
 `
 
 export const Placeholder = styled.div`
-  color: black;
+  color: #65657b;
   font-family: sans-serif;
   left: 20px;
   line-height: 14px;
@@ -228,18 +231,19 @@ export const Placeholder = styled.div`
 
 export const Submit = styled.button`
   background-color: #096b75;
+  color: #eee;
+  width: 100%;
+  height: 50px;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
-  color: #eee;
   cursor: pointer;
   font-size: 18px;
-  height: 50px;
   margin-top: 38px;
   margin-bottom: 30px;
   outline: 0;
   text-align: center;
-  width: 100%;
+  
   &:active {
     background-color: #def7fa;
     color: #096b75;
