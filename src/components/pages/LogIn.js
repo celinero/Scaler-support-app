@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useGlobalState } from 'config/store';
 import { logInUser } from 'services/userServices';
-import { Block, Label, Input} from 'components/atoms';
+import { OuterContainerCenter, Form, Title, Subtitle, InputContainer, Input, Cut, Placeholder, Submit } from 'components/atoms/form'
+
 
 export const LogIn = (props) => {
   const navigate = useNavigate();
@@ -42,19 +43,29 @@ export const LogIn = (props) => {
   }
 
   return(
-    <form onSubmit={handleSubmit}>
+    <OuterContainerCenter>
+      <Form onSubmit={handleSubmit}>
       {user.error && <p>Oops something went wrong</p>}
-      <Block>
-        <Label>Login</Label>
-        <Input onChange={handleChange} type="text" name="email" placeholder="Enter your email" value={formValues.email} />
-      </Block>
-      <Block>
-        <Label>Password</Label>
-        <Input onChange={handleChange} type="password" name="password" placeholder="Enter your password" value={formValues.password} />
-      </Block>
-      <Block>
-        <button type="submit" disabled={user.loading}>Log In</button>
-      </Block>
-    </form>
+        <Title>Welcome back</Title>
+        <Subtitle>Let's log in!</Subtitle>
+        <InputContainer>
+        <Input onChange={handleChange} type="text" name="email" placeholder=" " value={formValues.email} />
+          <Cut className="cut" />
+          <Placeholder className="placeholder ">
+          Email
+          </Placeholder>
+        </InputContainer>
+        <InputContainer>
+        <Input onChange={handleChange} type="password" name="password" placeholder=" " value={formValues.password} />
+          <Cut className="cut" />
+          <Placeholder className="placeholder ">
+          Password
+          </Placeholder>
+        </InputContainer>
+        <Submit type="submit" disabled={user.loading}>
+          Log In
+        </Submit>
+      </Form>
+    </OuterContainerCenter>
   )
 }
