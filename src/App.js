@@ -8,6 +8,7 @@ import { StateContext } from './config/store';
 
 import { validateUserSession } from 'services/userServices';
 import { getCategories } from 'services/categoriesServices';
+import { getUser } from 'services/userServices';
 
 import { Homepage } from 'components/pages/Homepage';
 import { LogIn } from 'components/pages/LogIn';
@@ -22,22 +23,25 @@ import { Navbar } from 'components/molecules/Navbar';
 const App = () => {
   const [store, dispatch] = useReducer(stateReducer, initialState);
 
-  const syncUser = () => {
+  const syncUser = async () => {
     const idToken = sessionStorage.getItem('idToken');
 
     if (!idToken) return;
 
-    validateUserSession(idToken)
-      .then((response) => {
-        if (response.error) return null;
+    const response = await validateUserSession(idToken)
 
-        dispatch({ type: "user:login", data: {
-          displayName: response.fullDecodedToken.name,
-          email: response.fullDecodedToken.email,
-          uid: response.fullDecodedToken.uid,
-          idToken
-        }})
-      })
+    if (response.error) return;
+
+    const { uid, name, email } = response.fullDecodedToken
+    const user = await getUser(uid)
+
+    dispatch({ type: "user:login", data: {
+      displayName: name,
+      role: user.role,
+      email,
+      uid,
+      idToken
+    }})
   }
 
   const fetchCategories = () => {

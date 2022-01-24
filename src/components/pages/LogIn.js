@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useGlobalState } from 'config/store';
-import { logInUser } from 'services/userServices';
+import { logInUser, getUser } from 'services/userServices';
 import { OuterContainerCenter, Form, Title, Subtitle, InputContainer, Input, Cut, Placeholder, Submit } from 'components/atoms/form'
 
 
@@ -17,29 +17,34 @@ export const LogIn = (props) => {
     }))
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     dispatch({ type: "user:fetch" })
 
-    logInUser(formValues)
-      .then(response => {
-        if (response.error) {
-          dispatch({ type: "user:error" })
-          return;
-        }
+    try {
+      const response = await logInUser(formValues);
 
-        dispatch({ type: "user:login", data: {
-          displayName: response.displayName,
-          email: response.email,
-          uid: response.uid,
-          idToken: response.idToken
-        }})
-        navigate("/user/tickets")
-      })
-      .catch(() => {
+      if (response.error) {
         dispatch({ type: "user:error" })
-      })
-      
+        return;
+      }
+
+      const { uid, displayName, email, idToken } = response
+      const user = await getUser(uid)
+
+      dispatch({ type: "user:login", data: {
+        role: user.role,
+        displayName,
+        email,
+        uid,
+        idToken
+      }})
+      navigate("/user/tickets")
+
+    }
+    catch {
+      dispatch({ type: "user:error" })
+    }      
   }
 
   return(
