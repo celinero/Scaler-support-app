@@ -102,7 +102,8 @@ const stateReducer = (state, action) => {
             displayName: action.data.displayName,
             email: action.data.email,
             uid: action.data.uid,
-            isLoggedIn: true
+            role: action.data.role,
+            isLoggedIn: true,
           },
           loading: false,
           error: false

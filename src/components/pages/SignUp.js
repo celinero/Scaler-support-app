@@ -25,7 +25,8 @@ export const SignUp = (props) => {
           displayName: response.displayName,
           email: response.email,
           uid: response.uid,
-          idToken: response.idToken
+          idToken: response.idToken,
+          role: 'user'
         }})
       })
       .catch(error => {

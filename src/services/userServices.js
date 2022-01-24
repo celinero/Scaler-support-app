@@ -26,3 +26,12 @@ export const validateUserSession = async (idToken) => {
          throw error
      }
 }
+
+export const getUser =  async (userID) => {
+    try {
+       const response = await scalerApi.get(`/users/${userID}`);
+       return response.data;
+    } catch(error) {
+        throw error
+    }
+}
