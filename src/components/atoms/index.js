@@ -99,22 +99,6 @@ export const Topbar = styled.div`
   margin: 20px;
 `;
 
-export const Nav = styled.nav`
-  display: flex;
-  justify-content: flex-end;
-  background-color: #096b75;
-`;
-export const NavLink = styled(Link)`
-  font-size: 1.2em;
-  text-decoration: none;
-  margin: 1em;
-  padding: 0.2em 0.5em;
-  color: white;
-  &:hover {
-    color: #c1e4e8;
-  }
-`;
-
 export const TitleH1 = styled.h1`
   color: #096b75;
 `;
