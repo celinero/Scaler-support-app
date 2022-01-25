@@ -16,7 +16,6 @@ export const InnerContainer = styled.div `
 `
 
 export const Card = styled.div`
-    
     background-color: white;
     box-sizing: border-box;
     padding: 1rem;
