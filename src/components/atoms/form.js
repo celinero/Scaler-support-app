@@ -1,23 +1,21 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export const OuterContainerCenter = styled.div `
-    background-color: #000;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-`
-
-export const OuterContainerWhite = styled.div `
-  
+export const OuterContainerCenter = styled.div`
+  background-color: #000;
   align-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-`
+`;
 
+export const OuterContainerWhite = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
 
 export const Form = styled.form`
   background-color: #15172b;
@@ -25,7 +23,7 @@ export const Form = styled.form`
   box-sizing: border-box;
   width: 50%;
   padding: 30px;
-`
+`;
 
 export const FormTicket = styled.form`
   background-color: white;
@@ -33,7 +31,7 @@ export const FormTicket = styled.form`
   box-sizing: border-box;
   width: 80%;
   padding: 30px;
-`
+`;
 
 export const Title = styled.h1`
   color: #096b75;
@@ -42,7 +40,7 @@ export const Title = styled.h1`
   font-weight: 600;
   margin-top: 30px;
   text-align: center;
-`
+`;
 
 export const Subtitle = styled.h2`
   color: #096b75;
@@ -51,7 +49,7 @@ export const Subtitle = styled.h2`
   font-weight: 600;
   margin-top: 10px;
   text-align: center;
-`
+`;
 
 export const InputContainer = styled.div`
   height: 50px;
@@ -59,7 +57,7 @@ export const InputContainer = styled.div`
   width: 100%;
   margin-top: 40px;
   margin-bottom: 40px;
-`
+`;
 
 export const Input = styled.input`
   background-color: #303245;
@@ -86,11 +84,11 @@ export const Input = styled.input`
   &:not(:placeholder-shown) ~ .placeholder {
     color: white;
   }
-  
+
   &:focus ~ .placeholder {
     color: white;
   }
-`
+`;
 
 export const InputTicket = styled.input`
   background-color: #d1e0e0;
@@ -119,11 +117,11 @@ export const InputTicket = styled.input`
   &:not(:placeholder-shown) ~ .placeholder {
     color: #096b75;
   }
-  
+
   &:focus ~ .placeholder {
     color: #096b75;
   }
-`
+`;
 
 export const Select = styled.select`
   background-color: #d1e0e0;
@@ -150,15 +148,14 @@ export const Select = styled.select`
   &:not(:placeholder-shown) ~ .placeholder {
     color: #096b75;
   }
-  
+
   &:focus ~ .placeholder {
     color: #096b75;
   }
-`
+`;
 export const Option = styled.option`
-    font-size: 1.2em;
-    
-`
+  font-size: 1.2em;
+`;
 
 export const TextArea = styled.textarea`
   background-color: #d1e0e0;
@@ -174,8 +171,8 @@ export const TextArea = styled.textarea`
 
   &:focus ~ .cutTicket,
   &:not(:placeholder-shown) ~ .cutTicket {
-  transform: translateY(8px);
-  background-color: #d1e0e0;
+    transform: translateY(8px);
+    background-color: #d1e0e0;
   }
 
   &:focus ~ .placeholder,
@@ -186,16 +183,15 @@ export const TextArea = styled.textarea`
   &:not(:placeholder-shown) ~ .placeholder {
     color: #096b75;
   }
-  
+
   &:focus ~ .placeholder {
     color: #096b75;
   }
-`
-
+`;
 
 export const Cut = styled.div`
   background-color: #15172b;
-  border-radius: 10px; 
+  border-radius: 10px;
   width: 76px;
   height: 20px;
   left: 20px;
@@ -203,11 +199,11 @@ export const Cut = styled.div`
   top: -20px;
   transform: translateY(0);
   transition: transform 200ms;
-`
+`;
 
 export const CutTicket = styled.div`
   background-color: white;
-  border-radius: 10px; 
+  border-radius: 10px;
   width: 76px;
   height: 20px;
   left: 20px;
@@ -215,7 +211,7 @@ export const CutTicket = styled.div`
   top: -20px;
   transform: translateY(0);
   transition: transform 200ms;
-`
+`;
 
 export const Placeholder = styled.div`
   color: #65657b;
@@ -227,7 +223,7 @@ export const Placeholder = styled.div`
   transform-origin: 0 50%;
   transition: transform 200ms, color 200ms;
   top: 20px;
-`
+`;
 
 export const Submit = styled.button`
   background-color: #096b75;
@@ -243,10 +239,9 @@ export const Submit = styled.button`
   margin-bottom: 30px;
   outline: 0;
   text-align: center;
-  
+
   &:active {
     background-color: #def7fa;
     color: #096b75;
   }
-`
-
+`;

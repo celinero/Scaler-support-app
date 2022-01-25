@@ -1,102 +1,102 @@
-import initialState from 'config/initialState'
+import initialState from "config/initialState";
 
 const stateReducer = (state, action) => {
-  switch(action.type){
+  switch (action.type) {
     case "tickets:fetch": {
       return {
-        ...state, 
+        ...state,
         tickets: {
           ...state.tickets,
           loading: true,
-          error: false
-        }
-      }
+          error: false,
+        },
+      };
     }
 
     case "tickets:error": {
       return {
-        ...state, 
+        ...state,
         tickets: {
           data: [],
           loading: false,
           error: true,
-          completed: true
-        }
-      }
+          completed: true,
+        },
+      };
     }
 
     case "tickets:set": {
       return {
-        ...state, 
+        ...state,
         tickets: {
           data: action.data,
           loading: false,
           error: false,
-          completed: true
-        }
-      }
+          completed: true,
+        },
+      };
     }
 
     case "categories:fetch": {
       return {
-        ...state, 
+        ...state,
         categories: {
           data: [],
           loading: true,
-          error: false
-        }
-      }
+          error: false,
+        },
+      };
     }
 
     case "categories:error": {
       return {
-        ...state, 
+        ...state,
         categories: {
           data: [],
           loading: false,
-          error: true
-        }
-      }
+          error: true,
+        },
+      };
     }
 
     case "categories:set": {
       return {
-        ...state, 
+        ...state,
         categories: {
           data: action.data,
           loading: false,
-          error: false
-        }
-      }
+          error: false,
+        },
+      };
     }
 
     case "user:fetch": {
       return {
-        ...state, 
+        ...state,
         user: {
           ...state.user,
           loading: true,
-          error: false
-        }
-      }
+          error: false,
+        },
+      };
     }
 
     case "user:error": {
       return {
-        ...state, 
+        ...state,
         user: {
           ...state.user,
           loading: false,
-          error: true
-        }
-      }
+          error: true,
+        },
+      };
     }
 
     case "user:login": {
-      sessionStorage.setItem('idToken', action.data.idToken);
+      sessionStorage.setItem("idToken", action.data.idToken);
 
       return {
-        ...state, 
+        ...state,
         user: {
           data: {
             displayName: action.data.displayName,
@@ -106,25 +106,25 @@ const stateReducer = (state, action) => {
             isLoggedIn: true,
           },
           loading: false,
-          error: false
-        }
-      }
+          error: false,
+        },
+      };
     }
 
     case "user:logout": {
-      sessionStorage.removeItem('idToken');
+      sessionStorage.removeItem("idToken");
 
       return {
         ...initialState,
         categories: {
-          ...state.categories, 
-        }
-      }
+          ...state.categories,
+        },
+      };
     }
 
     default:
       return state;
   }
-}
+};
 
 export default stateReducer;

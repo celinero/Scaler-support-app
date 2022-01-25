@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Bubble = styled.div`
   background-color: #303245;
@@ -11,9 +11,11 @@ export const Bubble = styled.div`
     margin-top: 10px;
   }
 
-  ${({ isRight }) => isRight && `
+  ${({ isRight }) =>
+    isRight &&
+    `
     background-color: #15172b;
     margin-left: 200px;
     margin-right: 0;
   `}
-`
+`;

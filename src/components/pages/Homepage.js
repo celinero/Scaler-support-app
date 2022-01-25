@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // import { useNavigate } from 'react-router';
 // import { useGlobalState } from '../../config/store';
 // import  Tickets   from '../Tickets';
@@ -9,9 +9,9 @@ export const Homepage = () => {
   // const {store, dispatch} = useGlobalState();
   // const {loggedInUser} = store;
 
-  return(
+  return (
     <>
-    homepage
+      homepage
       {/* <h1>Scaler Support App</h1>
       <img src={"../images/hero-image.jpeg"} alt="" />
 
@@ -22,7 +22,5 @@ export const Homepage = () => {
       }
      */}
     </>
-  )
-
-}
-  
+  );
+};
