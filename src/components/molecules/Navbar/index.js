@@ -20,15 +20,17 @@ export const Navbar = () => {
     });
   }
 
+  const { isLoggedIn } = user.data;
+
   return (
     <Nav>
       <Container>
         <NavInner>
-          <Link to="/">
+          <Link to={isLoggedIn ? "/user/tickets" : "/"}>
             <NavLogo src={logo} />
           </Link>
 
-          {!user.data.isLoggedIn && (
+          {!isLoggedIn && (
             <div>
               <NavLink to="/" active={location.pathname === "/"}>
                 Log In
@@ -39,7 +41,7 @@ export const Navbar = () => {
             </div>
           )}
 
-          {user.data.isLoggedIn && (
+          {isLoggedIn && (
             <div>
               <NavLink
                 to="/user/tickets"
