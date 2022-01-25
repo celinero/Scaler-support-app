@@ -12,7 +12,11 @@ import {
   Cut,
   Placeholder,
   Submit,
+  Field,
 } from "components/atoms/form";
+import { Container } from "components/atoms/layout";
+import { Button } from "components/atoms/button";
+import { ErrorMessage } from "components/atoms/typo";
 
 export const LogIn = (props) => {
   const navigate = useNavigate();
@@ -61,12 +65,16 @@ export const LogIn = (props) => {
   }
 
   return (
-    <OuterContainerCenter>
-      <Form onSubmit={handleSubmit}>
-        {user.error && <p>Oops something went wrong</p>}
-        <Title>Welcome back</Title>
-        <Subtitle>Let's log in!</Subtitle>
-        <InputContainer>
+    <Container size="small">
+      <Form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+        <div>
+          <h1>Welcome back!</h1>
+          <p style={{ marginTop: 5 }}>Let's log in</p>
+        </div>
+
+        {user.error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+
+        <Field label="Email">
           <Input
             onChange={handleChange}
             type="text"
@@ -74,10 +82,9 @@ export const LogIn = (props) => {
             placeholder=" "
             value={formValues.email}
           />
-          <Cut className="cut" />
-          <Placeholder className="placeholder ">Email</Placeholder>
-        </InputContainer>
-        <InputContainer>
+        </Field>
+
+        <Field label="Password">
           <Input
             onChange={handleChange}
             type="password"
@@ -85,13 +92,12 @@ export const LogIn = (props) => {
             placeholder=" "
             value={formValues.password}
           />
-          <Cut className="cut" />
-          <Placeholder className="placeholder ">Password</Placeholder>
-        </InputContainer>
-        <Submit type="submit" disabled={user.loading}>
+        </Field>
+
+        <Button type="submit" fullWidth disabled={user.loading}>
           Log In
-        </Submit>
+        </Button>
       </Form>
-    </OuterContainerCenter>
+    </Container>
   );
 };

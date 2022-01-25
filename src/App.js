@@ -10,7 +10,6 @@ import { validateUserSession } from "services/userServices";
 import { getCategories } from "services/categoriesServices";
 import { getUser } from "services/userServices";
 
-import { Homepage } from "components/pages/Homepage";
 import { LogIn } from "components/pages/LogIn";
 import { SignUp } from "components/pages/SignUp";
 import { Tickets } from "components/pages/Tickets";
@@ -71,8 +70,7 @@ const App = () => {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route exact path="/" element={<Homepage />} />
-            <Route path="/login" element={<LogIn />} />
+            <Route exact path="/" element={<LogIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/user/tickets" element={<Tickets />} />
             <Route path="/user/tickets/new" element={<NewTicket />} />

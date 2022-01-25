@@ -29,7 +29,7 @@ export const Navbar = () => {
 
           {!user.data.isLoggedIn && (
             <div>
-              <NavLink to="/login">Log In</NavLink>
+              <NavLink to="/">Log In</NavLink>
               <NavLink to="/signup">Sign Up</NavLink>
             </div>
           )}
