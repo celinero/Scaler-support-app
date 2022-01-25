@@ -28,5 +28,6 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     font-weight: 300;
     color: rgb(88, 96, 105);
+    margin: 0;
   }
 `;

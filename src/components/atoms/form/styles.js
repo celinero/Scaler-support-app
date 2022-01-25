@@ -225,11 +225,11 @@ export const Input = styled.input`
   border-radius: 6px;
   border: 0;
   box-sizing: border-box;
-  font-size: 18px;
   height: 50px;
   outline: 0;
   padding: 4px 20px 0;
   width: 100%;
+  font-size: inherit;
 
   &:focus ~ .cut,
   &:not(:placeholder-shown) ~ .cut {

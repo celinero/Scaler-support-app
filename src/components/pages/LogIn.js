@@ -2,20 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useGlobalState } from "config/store";
 import { logInUser, getUser } from "services/userServices";
-import {
-  OuterContainerCenter,
-  Form,
-  Title,
-  Subtitle,
-  InputContainer,
-  Input,
-  Cut,
-  Placeholder,
-  Submit,
-  Field,
-} from "components/atoms/form";
+import { Form, Input, Field } from "components/atoms/form";
 import { Container } from "components/atoms/layout";
-import { Button } from "components/atoms/button";
+import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
 
 export const LogIn = (props) => {
@@ -39,12 +28,6 @@ export const LogIn = (props) => {
 
     try {
       const response = await logInUser(formValues);
-
-      if (response.error) {
-        dispatch({ type: "user:error" });
-        return;
-      }
-
       const { uid, displayName, email, idToken } = response;
       const user = await getUser(uid);
 
@@ -98,6 +81,10 @@ export const LogIn = (props) => {
           Log In
         </Button>
       </Form>
+
+      <p style={{ marginTop: 50 }}>
+        Don't have an account? <TextLink to="/signup">Sign up</TextLink>
+      </p>
     </Container>
   );
 };

@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 import { useGlobalState } from "config/store";
 import { signUpUser } from "services/userServices";
-import {
-  OuterContainerCenter,
-  Form,
-  Title,
-  Subtitle,
-  InputContainer,
-  Input,
-  Cut,
-  Placeholder,
-  Submit,
-} from "components/atoms/form";
+import { Form, Input, Field } from "components/atoms/form";
+import { Container } from "components/atoms/layout";
+import { Button, TextLink } from "components/atoms/button";
+import { ErrorMessage } from "components/atoms/typo";
 
 export const SignUp = (props) => {
   const [formValues, setFormValues] = useState({
@@ -49,29 +42,32 @@ export const SignUp = (props) => {
           },
         });
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch({ type: "user:error" });
-        console.log(error);
       });
   }
 
   return (
-    <OuterContainerCenter>
-      <Form onSubmit={handleSubmit}>
-        <Title>Welcome</Title>
-        <Subtitle>Let's create your account!</Subtitle>
-        <InputContainer>
+    <Container size="small">
+      <Form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+        <div>
+          <h1>Welcome!</h1>
+          <p style={{ marginTop: 5 }}>Let's create your account</p>
+        </div>
+
+        {user.error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+
+        <Field label="Email">
           <Input
             onChange={handleChange}
-            type="email"
+            type="text"
             name="email"
             placeholder=" "
             value={formValues.email}
           />
-          <Cut className="cut" />
-          <Placeholder className="placeholder">Email</Placeholder>
-        </InputContainer>
-        <InputContainer>
+        </Field>
+
+        <Field label="Username">
           <Input
             onChange={handleChange}
             type="text"
@@ -79,10 +75,9 @@ export const SignUp = (props) => {
             placeholder=" "
             value={formValues.displayName}
           />
-          <Cut className="cut" />
-          <Placeholder className="placeholder">Username</Placeholder>
-        </InputContainer>
-        <InputContainer>
+        </Field>
+
+        <Field label="Password">
           <Input
             onChange={handleChange}
             type="password"
@@ -90,13 +85,16 @@ export const SignUp = (props) => {
             placeholder=" "
             value={formValues.password}
           />
-          <Cut className="cut" />
-          <Placeholder className="placeholder">Password</Placeholder>
-        </InputContainer>
-        <Submit type="submit" disabled={user.loading}>
+        </Field>
+
+        <Button type="submit" fullWidth disabled={user.loading}>
           Sign Up
-        </Submit>
+        </Button>
       </Form>
-    </OuterContainerCenter>
+
+      <p style={{ marginTop: 50 }}>
+        Already have an account? <TextLink to="/">Log in</TextLink>
+      </p>
+    </Container>
   );
 };
