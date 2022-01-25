@@ -36,4 +36,11 @@ export const NavLink = styled(Link)`
     border-top-color: #02a3da;
     color: rgb(23, 25, 29);
   }
+
+  ${({ active }) =>
+    active &&
+    `
+    border-top-color: rgba(238,237,235,1);
+    color: #02a3da;
+  `}
 `;

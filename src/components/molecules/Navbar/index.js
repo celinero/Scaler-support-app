@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { Container } from "components/atoms/layout";
 import { useGlobalState } from "config/store";
@@ -12,6 +12,7 @@ export const Navbar = () => {
     dispatch,
   } = useGlobalState();
   const navigate = useNavigate();
+  const location = useLocation();
 
   function handleLogOut() {
     dispatch({ type: "user:logout" }).then(() => {
@@ -29,14 +30,23 @@ export const Navbar = () => {
 
           {!user.data.isLoggedIn && (
             <div>
-              <NavLink to="/">Log In</NavLink>
-              <NavLink to="/signup">Sign Up</NavLink>
+              <NavLink to="/" active={location.pathname === "/"}>
+                Log In
+              </NavLink>
+              <NavLink to="/signup" active={location.pathname === "/signup"}>
+                Sign Up
+              </NavLink>
             </div>
           )}
 
           {user.data.isLoggedIn && (
             <div>
-              <NavLink to="/user/tickets">My Dashboard</NavLink>
+              <NavLink
+                to="/user/tickets"
+                active={location.pathname === "/user/tickets"}
+              >
+                Dashboard
+              </NavLink>
               <NavLink onClick={handleLogOut} to="/">
                 Log out
               </NavLink>
