@@ -7,7 +7,10 @@ import { Nav, NavLogo, NavInner, NavLink } from "./styles";
 import logo from "./logo.png";
 
 export const Navbar = () => {
-  const { dispatch } = useGlobalState();
+  const {
+    store: { user },
+    dispatch,
+  } = useGlobalState();
   const navigate = useNavigate();
 
   function handleLogOut() {
