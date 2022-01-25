@@ -5,7 +5,6 @@ import { useTickets } from "config/useTickets";
 import {
   Container,
   InnerContainerEnd,
-  Card,
   TitleH2,
   StyledLinkButton,
 } from "components/atoms";

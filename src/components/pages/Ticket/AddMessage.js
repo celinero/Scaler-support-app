@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTickets } from "config/useTickets";
-
-import {
-  FormTicket,
-  InputContainer,
-  TextArea,
-  CutTicket,
-  Placeholder,
-} from "components/atoms/form";
-import { Button } from "components/atoms/ticket";
+import { Container } from "components/atoms/layout";
+import { Form, FieldTextArea } from "components/atoms/form";
+import { Button } from "components/atoms/button";
 import { addMessageToTicket } from "services/ticketServices";
 import { useGlobalState } from "config/store";
 
@@ -48,23 +42,19 @@ export const AddMessage = () => {
   }
 
   return (
-    <FormTicket id="addMessageToTicket" onSubmit={handleSubmit}>
-      <InputContainer>
-        <TextArea
-          from="newTicket"
-          type="text"
+    <Container size="medium">
+      <Form id="addMessageToTicket" onSubmit={handleSubmit}>
+        <FieldTextArea
+          label="Message"
           name="ticketMessage"
-          placeholder=" "
-          value={formState.ticketMessage}
           onChange={handleChange}
-          required
+          value={formState.ticketMessage}
         />
-        <CutTicket className="cutTicket" />
-        <Placeholder className="placeholder">Add a message</Placeholder>
-      </InputContainer>
-      <Button type="submit" disabled={loading}>
-        Add Message
-      </Button>
-    </FormTicket>
+
+        <Button type="submit" fullWidth disabled={loading}>
+          Add Message
+        </Button>
+      </Form>
+    </Container>
   );
 };

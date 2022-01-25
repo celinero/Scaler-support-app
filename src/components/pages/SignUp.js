@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useGlobalState } from "config/store";
 import { signUpUser } from "services/userServices";
-import { Form, Input, Field } from "components/atoms/form";
+import { Form, FieldText } from "components/atoms/form";
 import { Container } from "components/atoms/layout";
 import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
 
-export const SignUp = (props) => {
+export const SignUp = () => {
   const [formValues, setFormValues] = useState({
     email: "",
     displayName: "",
@@ -57,35 +57,27 @@ export const SignUp = (props) => {
 
         {user.error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
 
-        <Field label="Email">
-          <Input
-            onChange={handleChange}
-            type="text"
-            name="email"
-            placeholder=" "
-            value={formValues.email}
-          />
-        </Field>
+        <FieldText
+          label="Email"
+          name="email"
+          onChange={handleChange}
+          value={formValues.email}
+        />
 
-        <Field label="Username">
-          <Input
-            onChange={handleChange}
-            type="text"
-            name="displayName"
-            placeholder=" "
-            value={formValues.displayName}
-          />
-        </Field>
+        <FieldText
+          label="Username"
+          name="displayName"
+          onChange={handleChange}
+          value={formValues.displayName}
+        />
 
-        <Field label="Password">
-          <Input
-            onChange={handleChange}
-            type="password"
-            name="password"
-            placeholder=" "
-            value={formValues.password}
-          />
-        </Field>
+        <FieldText
+          label="Password"
+          type="password"
+          name="password"
+          onChange={handleChange}
+          value={formValues.password}
+        />
 
         <Button type="submit" fullWidth disabled={user.loading}>
           Sign Up
