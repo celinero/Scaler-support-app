@@ -3,24 +3,24 @@ const initialState = {
     data: [],
     loading: false,
     error: false,
-    completed: false
+    completed: false,
   },
   categories: {
     data: [],
     loading: false,
-    error: false
+    error: false,
   },
   user: {
     data: {
-      displayName: '',
-      email: '',
-      uid: '',
-      role: '',
+      displayName: "",
+      email: "",
+      uid: "",
+      role: "",
       isLoggedIn: false,
     },
     loading: false,
-    error: false
+    error: false,
   },
-}
+};
 
 export default initialState;

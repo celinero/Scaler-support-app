@@ -1,76 +1,85 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { useGlobalState } from 'config/store';
-import { logInUser, getUser } from 'services/userServices';
-import { OuterContainerCenter, Form, Title, Subtitle, InputContainer, Input, Cut, Placeholder, Submit } from 'components/atoms/form'
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { useGlobalState } from "config/store";
+import { logInUser, getUser } from "services/userServices";
+import { Form, FieldText } from "components/atoms/form";
+import { Container } from "components/atoms/layout";
+import { Button, TextLink } from "components/atoms/button";
+import { ErrorMessage } from "components/atoms/typo";
 
-
-export const LogIn = (props) => {
+export const LogIn = () => {
   const navigate = useNavigate();
-  const [formValues, setFormValues] = useState({ email: "", password:"" });
-  const { store: { user }, dispatch } = useGlobalState();
+  const [formValues, setFormValues] = useState({ email: "", password: "" });
+  const {
+    store: { user },
+    dispatch,
+  } = useGlobalState();
 
   function handleChange(event) {
-    setFormValues(currentValues => ({
+    setFormValues((currentValues) => ({
       ...currentValues,
-      [event.target.name]: event.target.value
-    }))
+      [event.target.name]: event.target.value,
+    }));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    dispatch({ type: "user:fetch" })
+    dispatch({ type: "user:fetch" });
 
     try {
       const response = await logInUser(formValues);
+      const { uid, displayName, email, idToken } = response;
+      const user = await getUser(uid);
 
-      if (response.error) {
-        dispatch({ type: "user:error" })
-        return;
-      }
-
-      const { uid, displayName, email, idToken } = response
-      const user = await getUser(uid)
-
-      dispatch({ type: "user:login", data: {
-        role: user.role,
-        displayName,
-        email,
-        uid,
-        idToken
-      }})
-      navigate("/user/tickets")
-
+      dispatch({
+        type: "user:login",
+        data: {
+          role: user.role,
+          displayName,
+          email,
+          uid,
+          idToken,
+        },
+      });
+      navigate("/user/tickets");
+    } catch {
+      dispatch({ type: "user:error" });
     }
-    catch {
-      dispatch({ type: "user:error" })
-    }      
   }
 
-  return(
-    <OuterContainerCenter>
-      <Form onSubmit={handleSubmit}>
-      {user.error && <p>Oops something went wrong</p>}
-        <Title>Welcome back</Title>
-        <Subtitle>Let's log in!</Subtitle>
-        <InputContainer>
-        <Input onChange={handleChange} type="text" name="email" placeholder=" " value={formValues.email} />
-          <Cut className="cut" />
-          <Placeholder className="placeholder ">
-          Email
-          </Placeholder>
-        </InputContainer>
-        <InputContainer>
-        <Input onChange={handleChange} type="password" name="password" placeholder=" " value={formValues.password} />
-          <Cut className="cut" />
-          <Placeholder className="placeholder ">
-          Password
-          </Placeholder>
-        </InputContainer>
-        <Submit type="submit" disabled={user.loading}>
+  return (
+    <Container size="small">
+      <Form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+        <div>
+          <h1>Welcome back!</h1>
+          <p style={{ marginTop: 5 }}>Let's log in</p>
+        </div>
+
+        {user.error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+
+        <FieldText
+          label="Email"
+          name="email"
+          onChange={handleChange}
+          value={formValues.email}
+        />
+
+        <FieldText
+          label="Password"
+          type="password"
+          name="password"
+          onChange={handleChange}
+          value={formValues.password}
+        />
+
+        <Button type="submit" fullWidth disabled={user.loading}>
           Log In
-        </Submit>
+        </Button>
       </Form>
-    </OuterContainerCenter>
-  )
-}
+
+      <p style={{ marginTop: 50 }}>
+        Don't have an account? <TextLink to="/signup">Sign up</TextLink>
+      </p>
+    </Container>
+  );
+};

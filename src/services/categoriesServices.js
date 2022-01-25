@@ -1,10 +1,10 @@
-import scalerApi from "../config/api"
+import scalerApi from "../config/api";
 
 export const getCategories = async () => {
   try {
-    const response = await scalerApi.get('/categories')
+    const response = await scalerApi.get("/categories");
     return response.data;
-  } catch (err){
+  } catch (err) {
     throw err;
   }
-}
+};

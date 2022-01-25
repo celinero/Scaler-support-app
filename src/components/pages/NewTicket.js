@@ -1,82 +1,98 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { useGlobalState } from 'config/store';
-import { useTickets } from 'config/useTickets';
-import { createNewTicket } from 'services/ticketServices';
-import { OuterContainerWhite, FormTicket, Title, InputContainer, InputTicket, CutTicket, Select, Placeholder, Submit, Option, TextArea } from 'components/atoms/form';
-import { capitalize } from 'utils/stringUtils';
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { useGlobalState } from "config/store";
+import { useTickets } from "config/useTickets";
+import { createNewTicket } from "services/ticketServices";
+import {
+  Form,
+  FieldText,
+  FieldSelect,
+  FieldTextArea,
+} from "components/atoms/form";
+import { Container } from "components/atoms/layout";
+import { Button } from "components/atoms/button";
+import { capitalize } from "utils/stringUtils";
 
-
-export const NewTicket = (props) => {
+export const NewTicket = () => {
   const navigate = useNavigate();
-  const { store: { user, categories }, dispatch } = useGlobalState();
-  const tickets = useTickets()
+  const {
+    store: { user, categories },
+    dispatch,
+  } = useGlobalState();
+  const tickets = useTickets();
 
   const [formState, setFormState] = useState({
     ticketSubject: "",
     ticketCategoryID: "",
-    ticketMessage: ""
+    ticketMessage: "",
   });
 
-  function addNewTicket(){
-    dispatch({type: 'tickets:fetch' })
-      
+  function addNewTicket() {
+    dispatch({ type: "tickets:fetch" });
+
     createNewTicket({
       ...formState,
-      ticketUserID: user.data.uid
+      ticketUserID: user.data.uid,
     })
       .then(() => {
-        tickets.refresh()
-        navigate("/user/tickets")
+        tickets.refresh();
+        navigate("/user/tickets");
       })
-      .catch(error => {
-        console.log(error)
-      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function handleChange(event) {
     setFormState({
-        ...formState,
-        [event.target.name]: event.target.value
-    })
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
   }
-
 
   function handleSubmit(event) {
     event.preventDefault();
     addNewTicket();
   }
 
-  return(
-    <OuterContainerWhite>
-      <FormTicket id="newTicketForm" onSubmit={handleSubmit}>
-      <Title>Create a new a support ticket</Title>
-        <InputContainer>
-          <InputTicket type="text" name="ticketSubject" placeholder=" " value={formState.ticketSubject} onChange={handleChange} required />
-          <CutTicket className="cutTicket" />
-          <Placeholder className="placeholder">
-          Subject
-          </Placeholder>
-        </InputContainer>
-        <InputContainer>
-          <Select name="ticketCategoryID" onChange={handleChange} required defaultValue="">
-            <Option disabled hidden value=""></Option>
-            {categories.data.map(category => (
-              <Option key={category._id} value={category._id}>{capitalize(category.name)}</Option>
-            ))}
-          </Select>
-          <CutTicket className="cutTicket" />
-          <Placeholder className="placeholder">
-          Category
-          </Placeholder>
-        </InputContainer>
-        <InputContainer>
-          <TextArea from="newTicket" type="text" name="ticketMessage" placeholder=" "  value={formState.ticketMessage} onChange={handleChange} required />
-          <CutTicket className="cutTicket" />
-          <Placeholder className="placeholder">Message</Placeholder>
-        </InputContainer>
-        <Submit type="submit" disabled={tickets.loading}>Add Ticket</Submit>
-      </FormTicket>
-      </OuterContainerWhite>
-  )
-}
+  return (
+    <Container size="medium">
+      <Form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+        <div>
+          <h1>Need some help?</h1>
+          <p style={{ marginTop: 5 }}>Create a new support ticket</p>
+        </div>
+
+        <FieldText
+          label="Subject"
+          name="ticketSubject"
+          onChange={handleChange}
+          value={formState.ticketSubject}
+        />
+
+        <FieldSelect
+          label="Category"
+          name="ticketCategoryID"
+          onChange={handleChange}
+        >
+          {categories.data.map((category) => (
+            <option key={category._id} value={category._id}>
+              {capitalize(category.name)}
+            </option>
+          ))}
+        </FieldSelect>
+
+        <FieldTextArea
+          label="Message"
+          name="ticketMessage"
+          onChange={handleChange}
+          value={formState.ticketMessage}
+        />
+
+        <Button type="submit" fullWidth disabled={user.loading}>
+          Add Ticket
+        </Button>
+      </Form>
+    </Container>
+  );
+};
