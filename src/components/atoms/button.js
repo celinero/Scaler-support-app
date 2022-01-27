@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Button = styled.button`
+  display: inline-block;
+  text-decoration: none;
+  pointer: cursor;
   background: #02a3da;
   color: white;
   border-radius: 6px;
@@ -26,6 +29,8 @@ export const Button = styled.button`
     width: 100%;
   `}
 `;
+
+export const ButtonLink = Button.withComponent(Link);
 
 export const TextLink = styled(Link)`
   color: #02a3da;
