@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useGlobalState } from "config/store";
 import { logInUser, getUser } from "services/userServices";
-import { Form, FieldText } from "components/atoms/form";
-import { Container } from "components/atoms/layout";
+import { FieldText } from "components/atoms/form";
+import { Container, Card } from "components/atoms/layout";
 import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
 
@@ -49,33 +49,35 @@ export const LogIn = () => {
 
   return (
     <Container size="small">
-      <Form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
-        <div>
-          <h1>Welcome back!</h1>
-          <p style={{ marginTop: 5 }}>Let's log in</p>
-        </div>
+      <form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+        <Card>
+          <div>
+            <h1>Welcome back!</h1>
+            <p style={{ marginTop: 5 }}>Let's log in</p>
+          </div>
 
-        {user.error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+          {user.error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
 
-        <FieldText
-          label="Email"
-          name="email"
-          onChange={handleChange}
-          value={formValues.email}
-        />
+          <FieldText
+            label="Email"
+            name="email"
+            onChange={handleChange}
+            value={formValues.email}
+          />
 
-        <FieldText
-          label="Password"
-          type="password"
-          name="password"
-          onChange={handleChange}
-          value={formValues.password}
-        />
+          <FieldText
+            label="Password"
+            type="password"
+            name="password"
+            onChange={handleChange}
+            value={formValues.password}
+          />
 
-        <Button type="submit" fullWidth disabled={user.loading}>
-          Log In
-        </Button>
-      </Form>
+          <Button type="submit" fullWidth disabled={user.loading}>
+            Log In
+          </Button>
+        </Card>
+      </form>
 
       <p style={{ marginTop: 50 }}>
         Don't have an account? <TextLink to="/signup">Sign up</TextLink>

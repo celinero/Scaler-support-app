@@ -1,15 +1,5 @@
 import styled from "styled-components";
 
-export const Form = styled.form`
-  padding: 50px;
-  background: white;
-  border-radius: 6px;
-
-  & > * + * {
-    margin-top: 30px;
-  }
-`;
-
 export const Cut = styled.div`
   background: white;
   border-radius: 6px;
