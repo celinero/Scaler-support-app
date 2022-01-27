@@ -1,10 +1,9 @@
 import React from "react";
 import { useTickets } from "config/useTickets";
 import { useGlobalState } from "config/store";
-import { Container, Card } from "components/atoms/layout";
+import { Container, PageHeader } from "components/atoms/layout";
 import { ButtonLink } from "components/atoms/button";
 import { PreviewTicket } from "components/molecules/PreviewTicket";
-import { CardHeader, ButtonWrapper } from "./styles";
 
 export const Tickets = () => {
   const tickets = useTickets();
@@ -39,24 +38,23 @@ export const Tickets = () => {
 
   return (
     <Container>
-      <Card style={{ marginTop: 50 }}>
-        <CardHeader>
-          <div style={{ flexGrow: 1 }}>
-            <h1 style={{ marginBottom: 5 }}>Hi {user.data.displayName}</h1>
-            {!!activeTickets.length && (
-              <p>
-                You have {activeTickets.length} active support ticket
-                {activeTickets.length > 1 && "s"}.
-              </p>
-            )}
-            {!activeTickets.length && <p>You have 0 active support ticket.</p>}
-          </div>
-          <ButtonWrapper>
+      <PageHeader
+        cta={
+          <>
             <p style={{ marginBottom: 5 }}>Need help?</p>
             <ButtonLink to="/user/tickets/new">Create a new ticket</ButtonLink>
-          </ButtonWrapper>
-        </CardHeader>
-      </Card>
+          </>
+        }
+      >
+        <h1 style={{ marginBottom: 5 }}>Hi {user.data.displayName}</h1>
+        {!!activeTickets.length && (
+          <p>
+            You have {activeTickets.length} active support ticket
+            {activeTickets.length > 1 && "s"}.
+          </p>
+        )}
+        {!activeTickets.length && <p>You have 0 active support ticket.</p>}
+      </PageHeader>
 
       {!!activeTickets.length && (
         <div style={{ marginTop: 50 }}>

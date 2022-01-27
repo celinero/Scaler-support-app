@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdKeyboardArrowRight, MdNotificationsNone } from "react-icons/md";
 import { capitalize, trunctcate } from "utils/stringUtils";
-import { CardLink, Pill, IconWrapper, Notification } from "./styles";
+import { Pill } from "components/atoms/typo";
+import { CardLink, IconWrapper, Notification } from "./styles";
 
 export const PreviewTicket = ({
   _id,
