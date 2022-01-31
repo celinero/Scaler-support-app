@@ -4,7 +4,7 @@ import { useTickets } from "config/useTickets";
 import { Container, Card } from "components/atoms/layout";
 import { FieldTextArea } from "components/atoms/form";
 import { Button } from "components/atoms/button";
-import { addMessageToTicket } from "services/ticketServices";
+import { addMessageToTicket, updateTicket } from "services/ticketServices";
 import { useGlobalState } from "config/store";
 
 export const AddMessage = () => {
@@ -27,18 +27,22 @@ export const AddMessage = () => {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
 
-    addMessageToTicket(id, {
+    await addMessageToTicket(id, {
       ...formState,
       ticketUserID: user.data.uid,
-    }).then(() => {
-      setFormState({ ticketMessage: "" });
-      setLoading(false);
-      tickets.refresh();
     });
+
+    if (user.data.role === "admin") {
+      await updateTicket(id, { ticketSeen: false });
+    }
+
+    setFormState({ ticketMessage: "" });
+    setLoading(false);
+    tickets.refresh();
   }
 
   return (
