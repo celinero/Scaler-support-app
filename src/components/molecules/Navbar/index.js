@@ -32,10 +32,10 @@ export const Navbar = () => {
 
           {!isLoggedIn && (
             <div>
-              <NavLink to="/" active={location.pathname === "/"}>
+              <NavLink to="/" isActive={location.pathname === "/"}>
                 Log In
               </NavLink>
-              <NavLink to="/signup" active={location.pathname === "/signup"}>
+              <NavLink to="/signup" isActive={location.pathname === "/signup"}>
                 Sign Up
               </NavLink>
             </div>
@@ -45,7 +45,7 @@ export const Navbar = () => {
             <div>
               <NavLink
                 to="/user/tickets"
-                active={location.pathname === "/user/tickets"}
+                isActive={location.pathname === "/user/tickets"}
               >
                 Dashboard
               </NavLink>
