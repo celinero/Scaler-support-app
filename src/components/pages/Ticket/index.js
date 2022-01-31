@@ -13,7 +13,7 @@ import { AddMessage } from "./AddMessage";
 export const Ticket = () => {
   const { id } = useParams();
   const {
-    store: { categories },
+    store: { categories, user },
   } = useGlobalState();
   const tickets = useTickets();
   const ticket = tickets.data.find((t) => t._id.toString() === id);
@@ -21,13 +21,18 @@ export const Ticket = () => {
     (c) => c._id.toString() === ticket?.ticketCategoryID
   );
 
+  // means that ticket's update has been seen
+  // by ticket's owner
+  const isNowSeen =
+    !ticket?.ticketSeen && user.data.uid === ticket?.ticketUserID;
+
   useEffect(() => {
-    if (id && !ticket?.ticketSeen) {
+    if (id && isNowSeen) {
       updateTicket(id, { ticketSeen: true }).then(() => {
         tickets.refresh();
       });
     }
-  }, [id, ticket?.ticketSeen]);
+  }, [id, isNowSeen]);
 
   if (!tickets.completed) {
     return <>loading...</>;
