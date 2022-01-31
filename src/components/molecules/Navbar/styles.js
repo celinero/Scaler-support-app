@@ -16,7 +16,7 @@ export const NavInner = styled.div`
   align-items: center;
 `;
 
-export const NavLink = styled(Link)`
+export const NavLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
   display: inline-block;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -37,8 +37,8 @@ export const NavLink = styled(Link)`
     color: rgb(23, 25, 29);
   }
 
-  ${({ active }) =>
-    active &&
+  ${({ isActive }) =>
+    isActive &&
     `
     border-top-color: rgba(238,237,235,1);
     color: #02a3da;
