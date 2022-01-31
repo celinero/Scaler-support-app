@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTickets } from "config/useTickets";
-import { Container } from "components/atoms/layout";
-import { Form, FieldTextArea } from "components/atoms/form";
+import { Container, Card } from "components/atoms/layout";
+import { FieldTextArea } from "components/atoms/form";
 import { Button } from "components/atoms/button";
 import { addMessageToTicket } from "services/ticketServices";
 import { useGlobalState } from "config/store";
@@ -43,18 +43,20 @@ export const AddMessage = () => {
 
   return (
     <Container size="medium">
-      <Form id="addMessageToTicket" onSubmit={handleSubmit}>
-        <FieldTextArea
-          label="Message"
-          name="ticketMessage"
-          onChange={handleChange}
-          value={formState.ticketMessage}
-        />
+      <form id="addMessageToTicket" onSubmit={handleSubmit}>
+        <Card>
+          <FieldTextArea
+            label="Message"
+            name="ticketMessage"
+            onChange={handleChange}
+            value={formState.ticketMessage}
+          />
 
-        <Button type="submit" fullWidth disabled={loading}>
-          Add Message
-        </Button>
-      </Form>
+          <Button type="submit" fullWidth disabled={loading}>
+            Add Message
+          </Button>
+        </Card>
+      </form>
     </Container>
   );
 };

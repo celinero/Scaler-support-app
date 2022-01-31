@@ -3,13 +3,8 @@ import { useNavigate } from "react-router";
 import { useGlobalState } from "config/store";
 import { useTickets } from "config/useTickets";
 import { createNewTicket } from "services/ticketServices";
-import {
-  Form,
-  FieldText,
-  FieldSelect,
-  FieldTextArea,
-} from "components/atoms/form";
-import { Container } from "components/atoms/layout";
+import { FieldText, FieldSelect, FieldTextArea } from "components/atoms/form";
+import { Container, Card } from "components/atoms/layout";
 import { Button } from "components/atoms/button";
 import { capitalize } from "utils/stringUtils";
 
@@ -57,42 +52,44 @@ export const NewTicket = () => {
 
   return (
     <Container size="medium">
-      <Form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
-        <div>
-          <h1>Need some help?</h1>
-          <p style={{ marginTop: 5 }}>Create a new support ticket</p>
-        </div>
+      <form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+        <Card>
+          <div>
+            <h1>Need some help?</h1>
+            <p style={{ marginTop: 5 }}>Create a new support ticket</p>
+          </div>
 
-        <FieldText
-          label="Subject"
-          name="ticketSubject"
-          onChange={handleChange}
-          value={formState.ticketSubject}
-        />
+          <FieldText
+            label="Subject"
+            name="ticketSubject"
+            onChange={handleChange}
+            value={formState.ticketSubject}
+          />
 
-        <FieldSelect
-          label="Category"
-          name="ticketCategoryID"
-          onChange={handleChange}
-        >
-          {categories.data.map((category) => (
-            <option key={category._id} value={category._id}>
-              {capitalize(category.name)}
-            </option>
-          ))}
-        </FieldSelect>
+          <FieldSelect
+            label="Category"
+            name="ticketCategoryID"
+            onChange={handleChange}
+          >
+            {categories.data.map((category) => (
+              <option key={category._id} value={category._id}>
+                {capitalize(category.name)}
+              </option>
+            ))}
+          </FieldSelect>
 
-        <FieldTextArea
-          label="Message"
-          name="ticketMessage"
-          onChange={handleChange}
-          value={formState.ticketMessage}
-        />
+          <FieldTextArea
+            label="Message"
+            name="ticketMessage"
+            onChange={handleChange}
+            value={formState.ticketMessage}
+          />
 
-        <Button type="submit" fullWidth disabled={user.loading}>
-          Add Ticket
-        </Button>
-      </Form>
+          <Button type="submit" fullWidth disabled={user.loading}>
+            Add Ticket
+          </Button>
+        </Card>
+      </form>
     </Container>
   );
 };
