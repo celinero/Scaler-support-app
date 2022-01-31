@@ -28,8 +28,10 @@ export const PreviewTicket = ({
       <div>
         {!resolved && (
           <>
-            <h3 style={{ marginBottom: 20 }}>{capitalize(ticketSubject)}</h3>
-            <Pill style={{ marginBottom: 5 }}>{category}</Pill>
+            <Pill style={{ marginBottom: 15, marginLeft: -10 }}>
+              {category}
+            </Pill>
+            <h3 style={{ marginBottom: 10 }}>{capitalize(ticketSubject)}</h3>
             <p>{trunctcate(ticketMessages[0].ticketMessage, 100)}</p>
           </>
         )}

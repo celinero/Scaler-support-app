@@ -46,7 +46,7 @@ export const Tickets = () => {
           </>
         }
       >
-        <h1 style={{ marginBottom: 5 }}>Hi {user.data.displayName}</h1>
+        <h1 style={{ marginTop: 5 }}>Hi {user.data.displayName}</h1>
         {!!activeTickets.length && (
           <p>
             You have {activeTickets.length} active support ticket

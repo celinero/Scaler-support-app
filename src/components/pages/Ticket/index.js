@@ -57,10 +57,10 @@ export const Ticket = () => {
             </Button>
           }
         >
-          <h1 style={{ marginBottom: 5 }}>
-            {capitalize(ticket.ticketSubject)}
-          </h1>
-          <Pill>{category.name}</Pill>
+          <Pill style={{ marginBottom: 10, marginLeft: -10 }}>
+            {category.name}
+          </Pill>
+          <h1>{capitalize(ticket.ticketSubject)}</h1>
         </PageHeader>
 
         {ticket.ticketMessages
