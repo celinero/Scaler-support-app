@@ -17,7 +17,7 @@ const initialState = {
       role: "",
       isLoggedIn: false,
     },
-    loading: true,
+    loading: false,
     error: false,
   },
 };
