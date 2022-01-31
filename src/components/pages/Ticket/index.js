@@ -34,14 +34,6 @@ export const Ticket = () => {
     }
   }, [id, isNowSeen]);
 
-  if (!tickets.completed) {
-    return <>loading...</>;
-  }
-
-  if (tickets.error || !tickets) {
-    return <>oops something went wrong</>;
-  }
-
   return (
     <>
       <Container size="medium" style={{ marginBottom: 25 }}>

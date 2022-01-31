@@ -11,14 +11,6 @@ export const Tickets = () => {
     store: { user, categories },
   } = useGlobalState();
 
-  if (tickets.error) {
-    return <>oops something went wrong</>;
-  }
-
-  if (tickets.loading || !tickets.completed) {
-    return <>loading...</>;
-  }
-
   const addCategory = (ticket) => {
     return {
       ...ticket,

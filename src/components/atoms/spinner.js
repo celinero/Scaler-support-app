@@ -9,7 +9,7 @@ const SpinnerWrapper = styled.div`
 `;
 
 export const Spinner = ({ size = 50, style }) => (
-  <SpinnerWrapper style={{ height, ...style }}>
+  <SpinnerWrapper style={style}>
     <ReactLoading type="bubbles" color="#02a3da" height={size} width={size} />
   </SpinnerWrapper>
 );

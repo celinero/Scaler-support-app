@@ -1,13 +1,12 @@
 const initialState = {
   tickets: {
     data: [],
-    loading: false,
+    loading: true,
     error: false,
-    completed: false,
   },
   categories: {
     data: [],
-    loading: false,
+    loading: true,
     error: false,
   },
   user: {
@@ -18,7 +17,7 @@ const initialState = {
       role: "",
       isLoggedIn: false,
     },
-    loading: false,
+    loading: true,
     error: false,
   },
 };

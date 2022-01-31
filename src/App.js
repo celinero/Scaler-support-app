@@ -17,6 +17,7 @@ import { NewTicket } from "components/pages/NewTicket";
 import { Ticket } from "components/pages/Ticket";
 
 import { Navbar } from "components/molecules/Navbar";
+import { WithTickets } from "components/molecules/WithTickets";
 
 const App = () => {
   const [store, dispatch] = useReducer(stateReducer, initialState);
@@ -72,9 +73,12 @@ const App = () => {
           <Routes>
             <Route exact path="/" element={<LogIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/user/tickets" element={<Tickets />} />
-            <Route path="/user/tickets/new" element={<NewTicket />} />
-            <Route path="/user/tickets/:id" element={<Ticket />} />
+
+            <Route path="/user" element={<WithTickets />}>
+              <Route path="tickets" element={<Tickets />} />
+              <Route path="tickets/new" element={<NewTicket />} />
+              <Route path="tickets/:id" element={<Ticket />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </StateContext.Provider>

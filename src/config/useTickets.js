@@ -6,11 +6,9 @@ import { getTickets } from "services/ticketServices";
 
 export const useTickets = () => {
   const {
-    store: { user, tickets },
+    store: { tickets },
     dispatch,
   } = useGlobalState();
-  const shouldFetch =
-    user.data.isLoggedIn && !tickets.loading && !tickets.completed;
 
   const fetchTickets = useCallback(() => {
     dispatch({ type: "tickets:fetch" });
@@ -19,20 +17,24 @@ export const useTickets = () => {
       .then((response) => {
         dispatch({ type: "tickets:set", data: response });
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch({ type: "tickets:error" });
-        console.log(error);
       });
   }, [dispatch]);
 
-  useEffect(() => {
-    if (shouldFetch) {
-      fetchTickets();
-    }
-  }, [shouldFetch, fetchTickets]);
+  const refetchTickets = useCallback(() => {
+    getTickets()
+      .then((response) => {
+        dispatch({ type: "tickets:set", data: response });
+      })
+      .catch(() => {
+        dispatch({ type: "tickets:error" });
+      });
+  }, [dispatch]);
 
   return {
     ...tickets,
-    refresh: fetchTickets,
+    fetch: fetchTickets,
+    refetch: refetchTickets,
   };
 };
