@@ -13,13 +13,10 @@ import { AddMessage } from "./AddMessage";
 export const Ticket = () => {
   const { id } = useParams();
   const {
-    store: { categories, user },
+    store: { user },
   } = useGlobalState();
   const { tickets, fetchTickets } = useTickets();
   const ticket = tickets.find((t) => t._id.toString() === id);
-  const category = categories.find(
-    (c) => c._id.toString() === ticket?.ticketCategoryID
-  );
 
   // means that ticket's update has been seen
   // by ticket's owner
@@ -54,7 +51,7 @@ export const Ticket = () => {
           }
         >
           <Pill style={{ marginBottom: 10, marginLeft: -10 }}>
-            {category.name}
+            {ticket.ticketCategoryName}
           </Pill>
           <h1>{capitalize(ticket.ticketSubject)}</h1>
         </PageHeader>

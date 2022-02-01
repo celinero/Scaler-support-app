@@ -10,7 +10,7 @@ export const PreviewTicket = ({
   ticketSubject,
   ticketMessages,
   ticketSeen,
-  category,
+  ticketCategoryName,
   resolved,
 }) => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const PreviewTicket = ({
         {!resolved && (
           <>
             <Pill style={{ marginBottom: 15, marginLeft: -10 }}>
-              {category}
+              {ticketCategoryName}
             </Pill>
             <h3 style={{ marginBottom: 10 }}>{capitalize(ticketSubject)}</h3>
             <p>{trunctcate(ticketMessages[0].ticketMessage, 100)}</p>
