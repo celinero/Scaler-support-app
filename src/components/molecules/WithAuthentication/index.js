@@ -45,6 +45,7 @@ export const WithAuthentication = () => {
       },
     });
 
+    // TODO: kinda redirection?
     setLoading(false);
   };
 
