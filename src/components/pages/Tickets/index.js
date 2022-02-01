@@ -6,7 +6,7 @@ import { ButtonLink } from "components/atoms/button";
 import { PreviewTicket } from "components/molecules/PreviewTicket";
 
 export const Tickets = () => {
-  const tickets = useTickets();
+  const { tickets } = useTickets();
   const {
     store: { user, categories },
   } = useGlobalState();
@@ -14,17 +14,17 @@ export const Tickets = () => {
   const addCategory = (ticket) => {
     return {
       ...ticket,
-      category: categories.data.find(
+      category: categories.find(
         (c) => c._id.toString() === ticket?.ticketCategoryID
       )?.name,
     };
   };
 
-  const activeTickets = tickets.data
+  const activeTickets = tickets
     .filter((ticket) => !ticket.ticketResolved)
     .map(addCategory);
 
-  const resolvedTickets = tickets.data
+  const resolvedTickets = tickets
     .filter((ticket) => ticket.ticketResolved)
     .map(addCategory);
 
@@ -38,7 +38,7 @@ export const Tickets = () => {
           </>
         }
       >
-        <h1 style={{ marginTop: 5 }}>Hi {user.data.displayName}</h1>
+        <h1 style={{ marginTop: 5 }}>Hi {user.displayName}</h1>
         {!!activeTickets.length && (
           <p>
             You have {activeTickets.length} active support ticket

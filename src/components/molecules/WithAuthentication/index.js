@@ -32,13 +32,13 @@ export const WithAuthentication = () => {
     }
 
     const { uid, name, email } = response.fullDecodedToken;
-    const user = await getUser(uid);
+    const { role } = await getUser(uid);
 
     dispatch({
       type: "user:login",
       data: {
         displayName: name,
-        role: user.role,
+        role,
         email,
         uid,
         idToken,
