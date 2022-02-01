@@ -1,24 +1,12 @@
 const initialState = {
-  tickets: {
-    data: [],
-    loading: true,
-    error: false,
-  },
-  categories: {
-    data: [],
-    loading: true,
-    error: false,
-  },
+  tickets: [],
+  categories: [],
   user: {
-    data: {
-      displayName: "",
-      email: "",
-      uid: "",
-      role: "",
-      isLoggedIn: false,
-    },
-    loading: false,
-    error: false,
+    displayName: "",
+    email: "",
+    uid: "",
+    role: "",
+    isLoggedIn: false,
   },
 };
 

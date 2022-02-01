@@ -4,6 +4,7 @@ import { useTickets } from "config/useTickets";
 import { Container, Card } from "components/atoms/layout";
 import { FieldTextArea } from "components/atoms/form";
 import { Button } from "components/atoms/button";
+import { ErrorMessage } from "components/atoms/typo";
 import { addMessageToTicket, updateTicket } from "services/ticketServices";
 import { useGlobalState } from "config/store";
 
@@ -12,9 +13,10 @@ export const AddMessage = () => {
   const {
     store: { user },
   } = useGlobalState();
-  const tickets = useTickets();
+  const { fetchTickets } = useTickets();
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const [formState, setFormState] = useState({
     ticketMessage: "",
@@ -30,25 +32,33 @@ export const AddMessage = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
+    setError(false);
 
-    await addMessageToTicket(id, {
-      ...formState,
-      ticketUserID: user.data.uid,
-    });
+    try {
+      await addMessageToTicket(id, {
+        ...formState,
+        ticketUserID: user.uid,
+      });
 
-    if (user.data.role === "admin") {
-      await updateTicket(id, { ticketSeen: false });
+      if (user.role === "admin") {
+        await updateTicket(id, { ticketSeen: false });
+      }
+
+      fetchTickets();
+      setFormState({ ticketMessage: "" });
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
     }
-
-    setFormState({ ticketMessage: "" });
-    setLoading(false);
-    tickets.refresh();
   }
 
   return (
     <Container size="medium">
       <form id="addMessageToTicket" onSubmit={handleSubmit}>
         <Card>
+          {error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+
           <FieldTextArea
             label="Message"
             name="ticketMessage"

@@ -15,12 +15,11 @@ export const Navbar = () => {
   const location = useLocation();
 
   function handleLogOut() {
-    dispatch({ type: "user:logout" }).then(() => {
-      navigate("/");
-    });
+    dispatch({ type: "user:logout" });
+    navigate("/");
   }
 
-  const { isLoggedIn } = user.data;
+  const { isLoggedIn } = user;
 
   return (
     <Nav>

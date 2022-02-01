@@ -1,36 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import { useGlobalState } from "config/store";
-
 import { useTickets } from "config/useTickets";
-
-import { getCategories } from "services/categoriesServices";
+import { useCategories } from "config/useCategories";
 
 import { Spinner } from "components/atoms/spinner";
 
 export const WithTickets = () => {
-  const { dispatch } = useGlobalState();
-
-  const tickets = useTickets();
-
-  const fetchCategories = async () => {
-    const response = await getCategories();
-    dispatch({ type: "categories:set", data: response });
-  };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const { fetchTickets } = useTickets();
+  const { fetchCategories } = useCategories();
 
   useEffect(() => {
     (async () => {
-      await fetchCategories();
-      await tickets.fetch();
+      try {
+        await fetchCategories();
+        await fetchTickets();
+      } catch {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
-  if (tickets.loading) {
+  if (loading) {
     return <Spinner style={{ height: "calc(100vh - 72px)" }} />;
   }
 
-  if (tickets.error) {
+  if (error) {
     return "Oops something went wrong";
   }
 

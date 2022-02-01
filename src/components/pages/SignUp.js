@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "config/store";
 import { signUpUser } from "services/userServices";
 import { FieldText } from "components/atoms/form";
@@ -7,15 +8,15 @@ import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
 
 export const SignUp = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [formValues, setFormValues] = useState({
     email: "",
     displayName: "",
     password: "",
   });
-  const {
-    store: { user },
-    dispatch,
-  } = useGlobalState();
+  const navigate = useNavigate();
+  const { dispatch } = useGlobalState();
 
   function handleChange(event) {
     setFormValues((currentValues) => ({
@@ -27,7 +28,8 @@ export const SignUp = () => {
   function handleSubmit(event) {
     event.preventDefault();
 
-    dispatch({ type: "user:fetch" });
+    setLoading(true);
+    setError(false);
 
     signUpUser(formValues)
       .then((response) => {
@@ -41,9 +43,12 @@ export const SignUp = () => {
             role: "user",
           },
         });
+        setLoading(false);
+        navigate("/user/tickets");
       })
       .catch(() => {
-        dispatch({ type: "user:error" });
+        setLoading(false);
+        setError(true);
       });
   }
 
@@ -56,7 +61,7 @@ export const SignUp = () => {
             <p style={{ marginTop: 5 }}>Let's create your account</p>
           </div>
 
-          {user.error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+          {error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
 
           <FieldText
             label="Email"
@@ -80,7 +85,7 @@ export const SignUp = () => {
             value={formValues.password}
           />
 
-          <Button type="submit" fullWidth disabled={user.loading}>
+          <Button type="submit" fullWidth disabled={loading}>
             Sign Up
           </Button>
         </Card>

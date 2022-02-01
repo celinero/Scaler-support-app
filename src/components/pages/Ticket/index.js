@@ -15,21 +15,20 @@ export const Ticket = () => {
   const {
     store: { categories, user },
   } = useGlobalState();
-  const tickets = useTickets();
-  const ticket = tickets.data.find((t) => t._id.toString() === id);
-  const category = categories.data.find(
+  const { tickets, fetchTickets } = useTickets();
+  const ticket = tickets.find((t) => t._id.toString() === id);
+  const category = categories.find(
     (c) => c._id.toString() === ticket?.ticketCategoryID
   );
 
   // means that ticket's update has been seen
   // by ticket's owner
-  const isNowSeen =
-    !ticket?.ticketSeen && user.data.uid === ticket?.ticketUserID;
+  const isNowSeen = !ticket?.ticketSeen && user.uid === ticket?.ticketUserID;
 
   useEffect(() => {
     if (id && isNowSeen) {
       updateTicket(id, { ticketSeen: true }).then(() => {
-        tickets.refresh();
+        fetchTickets();
       });
     }
   }, [id, isNowSeen]);
@@ -46,7 +45,7 @@ export const Ticket = () => {
                 updateTicket(id, {
                   ticketResolved: !ticket.ticketResolved,
                 }).then(() => {
-                  tickets.refresh();
+                  fetchTickets();
                 });
               }}
             >
@@ -62,7 +61,7 @@ export const Ticket = () => {
 
         {ticket.ticketMessages
           .sort((a, b) => a.ticketDate - b.ticketDate)
-          .map(({ ticketMessage, ticketDate, ticketUserID }, index) => {
+          .map(({ ticketMessage, ticketDate, ticketUserID }) => {
             return (
               <BubbleWrapper
                 key={ticketDate}
