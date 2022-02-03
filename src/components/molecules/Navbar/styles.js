@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Nav = styled.nav`
-  background: white;
+  background: ${({ isAdmin }) => (isAdmin ? "#32373f" : "white")};
 `;
 
 export const NavLogo = styled.img`
@@ -24,7 +24,7 @@ export const NavLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
   font-size: 18px;
   border-bottom: solid 5px transparent;
   border-top: solid 5px transparent;
-  color: rgb(60, 67, 79);
+  color: ${({ isAdmin }) => (isAdmin ? "#b2bec3" : "rgb(60, 67, 79)")};
   text-decoration: none;
   padding: 21px 15px;
   line-height: 20px;
@@ -34,13 +34,13 @@ export const NavLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
   &:active,
   &:focus {
     border-top-color: #02a3da;
-    color: rgb(23, 25, 29);
+    color: ${({ isAdmin }) => (isAdmin ? "white" : "rgb(23, 25, 29)")};
   }
 
-  ${({ isActive }) =>
+  ${({ isActive, isAdmin }) =>
     isActive &&
     `
-    border-top-color: rgba(238,237,235,1);
+    border-top-color: ${isAdmin ? "#b2bec3" : "rgba(238,237,235,1)"};
     color: #02a3da;
   `}
 `;

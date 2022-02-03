@@ -11,17 +11,25 @@ export const Tickets = () => {
     store: { user },
   } = useGlobalState();
 
-  const activeTickets = tickets.filter((ticket) => !ticket.ticketResolved);
-  const resolvedTickets = tickets.filter((ticket) => ticket.ticketResolved);
+  const sortedTickets = tickets.sort((a, b) => b.ticketDate - a.ticketDate);
+  const activeTickets = sortedTickets.filter(
+    (ticket) => !ticket.ticketResolved
+  );
+  const solvedTickets = sortedTickets.filter((ticket) => ticket.ticketResolved);
+  const isAdmin = user.role === "admin";
 
   return (
     <Container>
       <PageHeader
         cta={
-          <>
-            <p style={{ marginBottom: 5 }}>Need help?</p>
-            <ButtonLink to="/user/tickets/new">Create a new ticket</ButtonLink>
-          </>
+          !isAdmin && (
+            <>
+              <p style={{ marginBottom: 5 }}>Need help?</p>
+              <ButtonLink to="/user/tickets/new">
+                Create a new ticket
+              </ButtonLink>
+            </>
+          )
         }
       >
         <h1 style={{ marginTop: 5 }}>Hi {user.displayName}</h1>
@@ -43,10 +51,10 @@ export const Tickets = () => {
         </div>
       )}
 
-      {!!resolvedTickets.length && (
+      {!!solvedTickets.length && (
         <div style={{ marginTop: 50 }}>
-          <h2>Resolved tickets</h2>
-          {resolvedTickets.map((ticket) => (
+          <h2>Solved tickets</h2>
+          {solvedTickets.map((ticket) => (
             <PreviewTicket key={ticket._id} {...ticket} resolved />
           ))}
         </div>

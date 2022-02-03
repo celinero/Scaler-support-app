@@ -11,6 +11,7 @@ export const CardLink = styled(Card)`
   padding-right: 80px;
   transition: all 0.2s;
   cursor: pointer;
+  color: inherit;
 
   &:hover,
   &:active,
