@@ -58,24 +58,34 @@ export const Ticket = () => {
 
         {ticket.ticketMessages
           .sort((a, b) => a.ticketDate - b.ticketDate)
-          .map(({ ticketMessage, ticketDate, ticketUserID }) => {
-            return (
-              <BubbleWrapper
-                key={ticketDate}
-                isRight={ticket.ticketUserID !== ticketUserID}
-              >
-                <Bubble isRight={ticket.ticketUserID !== ticketUserID}>
-                  <Info>
-                    {new Date(ticketDate).toLocaleDateString("en-US", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Info>
-                  <p>{ticketMessage}</p>
-                </Bubble>
-              </BubbleWrapper>
-            );
-          })}
+          .map(
+            ({
+              ticketMessage,
+              ticketDate,
+              ticketUserID,
+              ticketUserDisplayname,
+              ticketUserRole,
+            }) => {
+              return (
+                <BubbleWrapper
+                  key={ticketDate}
+                  isRight={ticket.ticketUserID !== ticketUserID}
+                >
+                  <Bubble isRight={ticket.ticketUserID !== ticketUserID}>
+                    <strong>{ticketUserDisplayname}</strong>
+                    <Info>
+                      {` `}| {ticketUserRole} |{` `}
+                      {new Date(ticketDate).toLocaleDateString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Info>
+                    <p style={{ marginTop: 10 }}>{ticketMessage}</p>
+                  </Bubble>
+                </BubbleWrapper>
+              );
+            }
+          )}
       </Container>
       <AddMessage />
     </>
