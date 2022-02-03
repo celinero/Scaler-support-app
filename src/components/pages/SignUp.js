@@ -85,7 +85,12 @@ export const SignUp = () => {
             value={formValues.password}
           />
 
-          <Button type="submit" fullWidth disabled={loading}>
+          <Button
+            type="submit"
+            fullWidth
+            disabled={loading}
+            isLoading={loading}
+          >
             Sign Up
           </Button>
         </Card>

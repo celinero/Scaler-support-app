@@ -92,7 +92,12 @@ export const NewTicket = () => {
             value={formState.ticketMessage}
           />
 
-          <Button type="submit" fullWidth disabled={loading}>
+          <Button
+            type="submit"
+            fullWidth
+            disabled={loading}
+            isLoading={loading}
+          >
             Add Ticket
           </Button>
         </Card>

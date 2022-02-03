@@ -75,7 +75,12 @@ export const LogIn = () => {
             value={formValues.password}
           />
 
-          <Button type="submit" fullWidth disabled={loading}>
+          <Button
+            type="submit"
+            fullWidth
+            disabled={loading}
+            isLoading={loading}
+          >
             Log In
           </Button>
         </Card>

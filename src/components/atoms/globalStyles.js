@@ -1,6 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+  html {
+    padding-bottom: 100px;
+  }
+
   body {
     margin: 0;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;

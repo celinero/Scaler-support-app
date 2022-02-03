@@ -44,7 +44,7 @@ export const AddMessage = () => {
         await updateTicket(id, { ticketSeen: false });
       }
 
-      fetchTickets();
+      await fetchTickets();
       setFormState({ ticketMessage: "" });
     } catch {
       setError(true);
@@ -66,7 +66,12 @@ export const AddMessage = () => {
             value={formState.ticketMessage}
           />
 
-          <Button type="submit" fullWidth disabled={loading}>
+          <Button
+            type="submit"
+            fullWidth
+            disabled={loading}
+            isLoading={loading}
+          >
             Add Message
           </Button>
         </Card>

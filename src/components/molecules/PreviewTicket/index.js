@@ -1,6 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { MdKeyboardArrowRight, MdNotificationsNone } from "react-icons/md";
+import {
+  MdKeyboardArrowRight,
+  MdNotificationsNone,
+  MdOutlineTextsms,
+} from "react-icons/md";
 import { useGlobalState } from "config/store";
 import { capitalize, trunctcate } from "utils/stringUtils";
 import { Pill, Info } from "components/atoms/typo";
@@ -24,9 +28,10 @@ export const PreviewTicket = ({
     },
   } = useGlobalState();
 
-  console.log(ticketDate);
-
   const isAdmin = role === "admin";
+  const lastMessage = ticketMessages[ticketMessages.length - 1];
+  const showAdminNotification =
+    isAdmin && lastMessage.ticketUserRole === "user";
 
   return (
     <CardLink
@@ -64,9 +69,14 @@ export const PreviewTicket = ({
         {resolved && (
           <p style={{ marginTop: 10 }}>{capitalize(ticketSubject)}</p>
         )}
-        {!ticketSeen && (
+        {!ticketSeen && !isAdmin && (
           <Notification>
-            <MdNotificationsNone size={24} color="white" />
+            <MdNotificationsNone size={20} color="white" />
+          </Notification>
+        )}
+        {showAdminNotification && (
+          <Notification>
+            <MdOutlineTextsms size={18} color="white" />
           </Notification>
         )}
         <IconWrapper>

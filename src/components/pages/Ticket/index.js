@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTickets } from "config/useTickets";
 import { Container, PageHeader } from "components/atoms/layout";
 import { Button, TextLink } from "components/atoms/button";
@@ -12,11 +12,13 @@ import { AddMessage } from "./AddMessage";
 
 export const Ticket = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const {
     store: { user },
   } = useGlobalState();
   const { tickets, fetchTickets } = useTickets();
   const ticket = tickets.find((t) => t._id.toString() === id);
+  const [loading, setLoading] = useState(false);
 
   // means that ticket's update has been seen
   // by ticket's owner
@@ -41,15 +43,18 @@ export const Ticket = () => {
               <Button
                 secondary
                 style={{ marginLeft: 10 }}
-                onClick={() => {
-                  updateTicket(id, {
+                isLoading={loading}
+                onClick={async () => {
+                  setLoading(true);
+                  await updateTicket(id, {
                     ticketResolved: !ticket.ticketResolved,
-                  }).then(() => {
-                    fetchTickets();
                   });
+                  await fetchTickets();
+                  setLoading(false);
+                  navigate("/user/tickets");
                 }}
               >
-                {ticket.ticketResolved ? "Unresolve" : "Resolve"}
+                {ticket.ticketResolved ? "Reopen" : "Solve"}
               </Button>
             </>
           }
