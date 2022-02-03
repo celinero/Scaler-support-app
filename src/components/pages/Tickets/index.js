@@ -8,25 +8,11 @@ import { PreviewTicket } from "components/molecules/PreviewTicket";
 export const Tickets = () => {
   const { tickets } = useTickets();
   const {
-    store: { user, categories },
+    store: { user },
   } = useGlobalState();
 
-  const addCategory = (ticket) => {
-    return {
-      ...ticket,
-      category: categories.find(
-        (c) => c._id.toString() === ticket?.ticketCategoryID
-      )?.name,
-    };
-  };
-
-  const activeTickets = tickets
-    .filter((ticket) => !ticket.ticketResolved)
-    .map(addCategory);
-
-  const resolvedTickets = tickets
-    .filter((ticket) => ticket.ticketResolved)
-    .map(addCategory);
+  const activeTickets = tickets.filter((ticket) => !ticket.ticketResolved);
+  const resolvedTickets = tickets.filter((ticket) => ticket.ticketResolved);
 
   return (
     <Container>
