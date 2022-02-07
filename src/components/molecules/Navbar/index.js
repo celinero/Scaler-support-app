@@ -19,10 +19,11 @@ export const Navbar = () => {
     navigate("/");
   }
 
-  const { isLoggedIn } = user;
+  const { isLoggedIn, role } = user;
+  const isAdmin = role === "admin";
 
   return (
-    <Nav>
+    <Nav isAdmin={isAdmin}>
       <Container>
         <NavInner>
           <Link to={isLoggedIn ? "/user/tickets" : "/"}>
@@ -31,10 +32,18 @@ export const Navbar = () => {
 
           {!isLoggedIn && (
             <div>
-              <NavLink to="/" isActive={location.pathname === "/"}>
+              <NavLink
+                isAdmin={isAdmin}
+                to="/"
+                isActive={location.pathname === "/"}
+              >
                 Log In
               </NavLink>
-              <NavLink to="/signup" isActive={location.pathname === "/signup"}>
+              <NavLink
+                isAdmin={isAdmin}
+                to="/signup"
+                isActive={location.pathname === "/signup"}
+              >
                 Sign Up
               </NavLink>
             </div>
@@ -43,12 +52,13 @@ export const Navbar = () => {
           {isLoggedIn && (
             <div>
               <NavLink
+                isAdmin={isAdmin}
                 to="/user/tickets"
                 isActive={location.pathname === "/user/tickets"}
               >
                 Dashboard
               </NavLink>
-              <NavLink onClick={handleLogOut} to="/">
+              <NavLink isAdmin={isAdmin} onClick={handleLogOut} to="/">
                 Log out
               </NavLink>
             </div>

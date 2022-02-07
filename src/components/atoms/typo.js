@@ -12,3 +12,7 @@ export const Pill = styled.em`
   border-radius: 12px;
   color: rgb(88, 96, 105);
 `;
+
+export const Info = styled.em`
+  opacity: 0.65;
+`;

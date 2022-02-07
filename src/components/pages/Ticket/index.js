@@ -1,22 +1,24 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTickets } from "config/useTickets";
 import { Container, PageHeader } from "components/atoms/layout";
-import { Button } from "components/atoms/button";
-import { Pill } from "components/atoms/typo";
+import { Button, TextLink } from "components/atoms/button";
+import { Pill, Info } from "components/atoms/typo";
 import { capitalize } from "utils/stringUtils";
 import { updateTicket } from "services/ticketServices";
 import { useGlobalState } from "config/store";
-import { BubbleWrapper, Bubble, Info } from "./styles";
+import { BubbleWrapper, Bubble } from "./styles";
 import { AddMessage } from "./AddMessage";
 
 export const Ticket = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const {
     store: { user },
   } = useGlobalState();
   const { tickets, fetchTickets } = useTickets();
   const ticket = tickets.find((t) => t._id.toString() === id);
+  const [loading, setLoading] = useState(false);
 
   // means that ticket's update has been seen
   // by ticket's owner
@@ -36,18 +38,25 @@ export const Ticket = () => {
         <PageHeader
           style={{ marginBottom: 25 }}
           cta={
-            <Button
-              secondary
-              onClick={() => {
-                updateTicket(id, {
-                  ticketResolved: !ticket.ticketResolved,
-                }).then(() => {
-                  fetchTickets();
-                });
-              }}
-            >
-              {ticket.ticketResolved ? "Unresolve" : "Resolve"}
-            </Button>
+            <>
+              <TextLink to="/user/tickets">Back</TextLink>
+              <Button
+                secondary
+                style={{ marginLeft: 10 }}
+                isLoading={loading}
+                onClick={async () => {
+                  setLoading(true);
+                  await updateTicket(id, {
+                    ticketResolved: !ticket.ticketResolved,
+                  });
+                  await fetchTickets();
+                  setLoading(false);
+                  navigate("/user/tickets");
+                }}
+              >
+                {ticket.ticketResolved ? "Reopen" : "Solve"}
+              </Button>
+            </>
           }
         >
           <Pill style={{ marginBottom: 10, marginLeft: -10 }}>

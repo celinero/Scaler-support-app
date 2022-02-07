@@ -8,8 +8,14 @@ const SpinnerWrapper = styled.div`
   align-items: center;
 `;
 
-export const Spinner = ({ size = 50, style }) => (
+export const Spinner = ({ size = 50, style, ...etc }) => (
   <SpinnerWrapper style={style}>
-    <ReactLoading type="bubbles" color="#02a3da" height={size} width={size} />
+    <ReactLoading
+      type="bubbles"
+      color="#02a3da"
+      height={size}
+      width={size}
+      {...etc}
+    />
   </SpinnerWrapper>
 );

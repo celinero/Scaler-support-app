@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { Spinner } from "components/atoms/spinner";
 
-export const Button = styled.button`
+export const StyledButton = styled.button`
+  position: relative;
   display: inline-block;
   text-decoration: none;
   pointer: cursor;
@@ -46,7 +48,26 @@ export const Button = styled.button`
   `}
 `;
 
-export const ButtonLink = Button.withComponent(Link);
+export const Button = ({ isLoading, children, ...props }) => (
+  <StyledButton {...props}>
+    {isLoading && (
+      <Spinner
+        color="white"
+        size={30}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+        }}
+      />
+    )}
+    <span style={{ opacity: isLoading ? 0.25 : 1 }}>{children}</span>
+  </StyledButton>
+);
+
+export const ButtonLink = StyledButton.withComponent(Link);
 
 export const TextLink = styled(Link)`
   color: #02a3da;

@@ -33,7 +33,3 @@ export const Bubble = styled.div`
     }
   `}
 `;
-
-export const Info = styled.em`
-  opacity: 0.65;
-`;
