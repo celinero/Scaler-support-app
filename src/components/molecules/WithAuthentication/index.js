@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useLocation, useNavigate, Outlet } from "react-router-dom";
 
 import { useGlobalState } from "config/store";
 
@@ -13,39 +13,41 @@ export const WithAuthentication = () => {
   const { dispatch } = useGlobalState();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const syncUser = async () => {
+    const isUserPage = /^\/user/.test(location.pathname);
     const idToken = sessionStorage.getItem("idToken");
+    let response = null;
 
-    if (!idToken) {
-      navigate("/");
-      setLoading(false);
-      return;
+    if (idToken) {
+      response = await validateUserSession(idToken);
     }
 
-    const response = await validateUserSession(idToken);
+    if (response?.fullDecodedToken) {
+      const { uid, name, email } = response.fullDecodedToken;
+      const { role } = await getUser(uid);
 
-    if (response.error) {
-      navigate("/");
-      setLoading(false);
-      return;
+      dispatch({
+        type: "user:login",
+        data: {
+          displayName: name,
+          role,
+          email,
+          uid,
+          idToken,
+        },
+      });
     }
 
-    const { uid, name, email } = response.fullDecodedToken;
-    const { role } = await getUser(uid);
+    if ((!idToken || !response?.fullDecodedToken) && isUserPage) {
+      navigate("/");
+    }
 
-    dispatch({
-      type: "user:login",
-      data: {
-        displayName: name,
-        role,
-        email,
-        uid,
-        idToken,
-      },
-    });
+    if (idToken && !isUserPage) {
+      navigate("/user/tickets");
+    }
 
-    // TODO: kinda redirection?
     setLoading(false);
   };
 
