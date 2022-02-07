@@ -6,10 +6,11 @@ import { FieldText } from "components/atoms/form";
 import { Container, Card } from "components/atoms/layout";
 import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
+import { parseError } from "config/api";
 
 export const LogIn = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({ email: "", password: "" });
   const { dispatch } = useGlobalState();
@@ -24,7 +25,7 @@ export const LogIn = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    setError(false);
+    setError("");
 
     try {
       const { uid, displayName, email, idToken } = await logInUser(formValues);
@@ -43,9 +44,9 @@ export const LogIn = () => {
 
       setLoading(false);
       navigate("/user/tickets");
-    } catch {
+    } catch (e) {
       setLoading(false);
-      setError(true);
+      setError(parseError(e));
     }
   }
 
@@ -58,7 +59,7 @@ export const LogIn = () => {
             <p style={{ marginTop: 5 }}>Let's log in</p>
           </div>
 
-          {error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+          {!!error && <ErrorMessage>{error}</ErrorMessage>}
 
           <FieldText
             label="Email"

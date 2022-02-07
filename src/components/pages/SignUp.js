@@ -6,10 +6,11 @@ import { FieldText } from "components/atoms/form";
 import { Container, Card } from "components/atoms/layout";
 import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
+import { parseError } from "config/api";
 
 export const SignUp = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [formValues, setFormValues] = useState({
     email: "",
     displayName: "",
@@ -29,7 +30,7 @@ export const SignUp = () => {
     event.preventDefault();
 
     setLoading(true);
-    setError(false);
+    setError("");
 
     signUpUser(formValues)
       .then((response) => {
@@ -46,9 +47,9 @@ export const SignUp = () => {
         setLoading(false);
         navigate("/user/tickets");
       })
-      .catch(() => {
+      .catch((e) => {
         setLoading(false);
-        setError(true);
+        setError(parseError(e));
       });
   }
 
@@ -61,7 +62,7 @@ export const SignUp = () => {
             <p style={{ marginTop: 5 }}>Let's create your account</p>
           </div>
 
-          {error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
 
           <FieldText
             label="Email"
