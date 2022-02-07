@@ -1,4 +1,5 @@
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { ErrorMessage } from "components/atoms/typo";
 import {
   InputContainer,
   Cut,
@@ -16,9 +17,10 @@ export const Field = ({ children, label }) => (
   </InputContainer>
 );
 
-export const FieldText = ({ label, ...etc }) => (
+export const FieldText = ({ label, error, ...etc }) => (
   <Field label={label}>
     <Input type="text" placeholder=" " {...etc} />
+    {error && <ErrorMessage>{error}</ErrorMessage>}
   </Field>
 );
 

@@ -7,6 +7,7 @@ import { Container, Card } from "components/atoms/layout";
 import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
 import { parseError } from "config/api";
+import { validateEmail, validatePassword } from "utils/validate";
 
 export const LogIn = () => {
   const [loading, setLoading] = useState(false);
