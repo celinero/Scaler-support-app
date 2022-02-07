@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { ErrorMessage } from "components/atoms/typo";
 import {
@@ -17,12 +18,12 @@ export const Field = ({ children, label }) => (
   </InputContainer>
 );
 
-export const FieldText = ({ label, error, ...etc }) => (
+export const FieldText = forwardRef(({ label, error, ...etc }, ref) => (
   <Field label={label}>
-    <Input type="text" placeholder=" " {...etc} />
+    <Input type="text" placeholder=" " {...etc} ref={ref} />
     {error && <ErrorMessage>{error}</ErrorMessage>}
   </Field>
-);
+));
 
 export const FieldTextArea = ({ label, ...etc }) => (
   <Field label={label}>
