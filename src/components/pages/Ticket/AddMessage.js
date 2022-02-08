@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { useTickets } from "config/useTickets";
 import { Container, Card } from "components/atoms/layout";
 import { FieldTextArea } from "components/atoms/form";
@@ -8,6 +9,10 @@ import { ErrorMessage } from "components/atoms/typo";
 import { addMessageToTicket, updateTicket } from "services/ticketServices";
 import { useGlobalState } from "config/store";
 
+const messageErrors = {
+  required: "Message required",
+};
+
 export const AddMessage = () => {
   const { id } = useParams();
   const {
@@ -15,28 +20,23 @@ export const AddMessage = () => {
   } = useGlobalState();
   const { fetchTickets } = useTickets();
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const [formState, setFormState] = useState({
-    ticketMessage: "",
+  const {
+    reset,
+    register,
+
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: "onBlur",
   });
 
-  function handleChange(event) {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setLoading(true);
-    setError(false);
-
+  async function onSubmit(formValues) {
     try {
+      setError(false);
       await addMessageToTicket(id, {
-        ...formState,
+        ...formValues,
         ticketUserID: user.uid,
       });
 
@@ -45,32 +45,29 @@ export const AddMessage = () => {
       }
 
       await fetchTickets();
-      setFormState({ ticketMessage: "" });
+      reset();
     } catch {
       setError(true);
-    } finally {
-      setLoading(false);
     }
   }
 
   return (
     <Container size="medium">
-      <form id="addMessageToTicket" onSubmit={handleSubmit}>
+      <form id="addMessageToTicket" onSubmit={handleSubmit(onSubmit)}>
         <Card>
           {error && <ErrorMessage>Oops something went wrong</ErrorMessage>}
 
           <FieldTextArea
             label="Message"
-            name="ticketMessage"
-            onChange={handleChange}
-            value={formState.ticketMessage}
+            {...register("ticketMessage", { required: true })}
+            error={messageErrors[errors?.ticketMessage?.type]}
           />
 
           <Button
             type="submit"
             fullWidth
-            disabled={loading}
-            isLoading={loading}
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Add Message
           </Button>
