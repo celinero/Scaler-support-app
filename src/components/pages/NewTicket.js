@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
 import { useGlobalState } from "config/store";
 import { useTickets } from "config/useTickets";
 import { createNewTicket } from "services/ticketServices";
@@ -9,8 +10,19 @@ import { Container, Card } from "components/atoms/layout";
 import { Button } from "components/atoms/button";
 import { capitalize } from "utils/stringUtils";
 
+const subjectErrors = {
+  required: "Subject required",
+};
+
+const categoryErrors = {
+  validate: "Category required",
+};
+
+const messageErrors = {
+  required: "Message required",
+};
+
 export const NewTicket = () => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const {
@@ -18,46 +30,33 @@ export const NewTicket = () => {
   } = useGlobalState();
   const { fetchTickets } = useTickets();
 
-  const [formState, setFormState] = useState({
-    ticketSubject: "",
-    ticketCategoryID: "",
-    ticketMessage: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: "onBlur",
   });
 
-  function addNewTicket() {
-    setLoading(true);
-    setError(false);
-
-    createNewTicket({
-      ...formState,
-      ticketUserID: user.uid,
-    })
-      .then(() => {
-        fetchTickets();
-        setLoading(false);
-        navigate("/user/tickets");
-      })
-      .catch((e) => {
-        setLoading(false);
-        setError(true);
+  async function onSubmit(formValues) {
+    try {
+      setError(false);
+      await createNewTicket({
+        ...formValues,
+        ticketUserID: user.uid,
       });
-  }
 
-  function handleChange(event) {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value,
-    });
-  }
+      await fetchTickets();
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    addNewTicket();
+      navigate("/user/tickets");
+    } catch {
+      setError(true);
+    }
   }
 
   return (
     <Container size="medium">
-      <form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+      <form style={{ marginTop: 50 }} onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <div>
             <h1>Need some help?</h1>
@@ -68,15 +67,16 @@ export const NewTicket = () => {
 
           <FieldText
             label="Subject"
-            name="ticketSubject"
-            onChange={handleChange}
-            value={formState.ticketSubject}
+            {...register("ticketSubject", { required: true })}
+            error={subjectErrors[errors?.ticketSubject?.type]}
           />
 
           <FieldSelect
             label="Category"
-            name="ticketCategoryID"
-            onChange={handleChange}
+            {...register("ticketCategoryID", {
+              validate: (value) => !!value?.trim(),
+            })}
+            error={categoryErrors[errors?.ticketCategoryID?.type]}
           >
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
@@ -87,16 +87,15 @@ export const NewTicket = () => {
 
           <FieldTextArea
             label="Message"
-            name="ticketMessage"
-            onChange={handleChange}
-            value={formState.ticketMessage}
+            {...register("ticketMessage", { required: true })}
+            error={messageErrors[errors?.ticketMessage?.type]}
           />
 
           <Button
             type="submit"
             fullWidth
-            disabled={loading}
-            isLoading={loading}
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Add Ticket
           </Button>

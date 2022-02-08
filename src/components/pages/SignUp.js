@@ -34,9 +34,8 @@ export const SignUp = () => {
   const { dispatch } = useGlobalState();
 
   async function onSubmit(formValues) {
-    setError("");
-
     try {
+      setError("");
       const response = await signUpUser(formValues);
 
       dispatch({
