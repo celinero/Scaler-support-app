@@ -16,7 +16,9 @@ export const NavInner = styled.div`
   align-items: center;
 `;
 
-export const NavLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
+export const NavLink = styled(({ isActive, isAdmin, ...rest }) => (
+  <Link {...rest} />
+))`
   display: inline-block;
   text-transform: uppercase;
   letter-spacing: 0.02em;

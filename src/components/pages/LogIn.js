@@ -20,7 +20,6 @@ const passwordErrors = {
 };
 
 export const LogIn = () => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { dispatch } = useGlobalState();
@@ -30,7 +29,6 @@ export const LogIn = () => {
   });
 
   async function onSubmit(formValues) {
-    setLoading(true);
     setError("");
 
     try {
@@ -48,10 +46,8 @@ export const LogIn = () => {
         },
       });
 
-      setLoading(false);
       navigate("/user/tickets");
     } catch (e) {
-      setLoading(false);
       setError(parseError(e));
     }
   }
@@ -86,8 +82,8 @@ export const LogIn = () => {
           <Button
             type="submit"
             fullWidth
-            disabled={loading}
-            isLoading={loading}
+            disabled={formState.isSubmitting}
+            isLoading={formState.isSubmitting}
           >
             Log In
           </Button>
