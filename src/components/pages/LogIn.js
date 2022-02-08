@@ -29,9 +29,8 @@ export const LogIn = () => {
   });
 
   async function onSubmit(formValues) {
-    setError("");
-
     try {
+      setError("");
       const { uid, displayName, email, idToken } = await logInUser(formValues);
       const user = await getUser(uid);
 

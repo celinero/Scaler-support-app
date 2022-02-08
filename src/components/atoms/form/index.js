@@ -25,29 +25,33 @@ export const FieldText = forwardRef(({ label, error, ...etc }, ref) => (
   </Field>
 ));
 
-export const FieldTextArea = ({ label, ...etc }) => (
+export const FieldTextArea = forwardRef(({ label, error, ...etc }, ref) => (
   <Field label={label}>
-    <TextArea placeholder=" " {...etc} />
+    <TextArea placeholder=" " {...etc} ref={ref} />
+    {error && <ErrorMessage>{error}</ErrorMessage>}
   </Field>
-);
+));
 
-export const FieldSelect = ({ label, children, ...etc }) => (
-  <Field label={label}>
-    <Select required defaultValue=" " {...etc}>
-      <option disabled hidden value=" "></option>
-      {children}
-    </Select>
-    <MdKeyboardArrowDown
-      size={30}
-      color="rgb(88,96,105)"
-      style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        pointerEvents: "none",
-      }}
-    />
-  </Field>
+export const FieldSelect = forwardRef(
+  ({ label, children, error, ...etc }, ref) => (
+    <Field label={label}>
+      <Select required defaultValue=" " {...etc} ref={ref}>
+        <option disabled hidden value=" "></option>
+        {children}
+      </Select>
+      <MdKeyboardArrowDown
+        size={30}
+        color="rgb(88,96,105)"
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          pointerEvents: "none",
+        }}
+      />
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+    </Field>
+  )
 );
 
 export * from "./styles";
