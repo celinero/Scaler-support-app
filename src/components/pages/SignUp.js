@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { useGlobalState } from "config/store";
 import { signUpUser } from "services/userServices";
 import { FieldText } from "components/atoms/form";
@@ -8,54 +9,55 @@ import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
 import { parseError } from "config/api";
 
+const emailErrors = {
+  required: "Email required",
+  pattern: "Email invalid",
+};
+
+const passwordErrors = {
+  required: "Password required",
+  minLength: "Password invalid",
+};
+
+const usernameErrors = {
+  required: "Username required",
+};
+
 export const SignUp = () => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [formValues, setFormValues] = useState({
-    email: "",
-    displayName: "",
-    password: "",
+
+  const { register, handleSubmit, formState } = useForm({
+    mode: "onBlur",
   });
+
   const navigate = useNavigate();
   const { dispatch } = useGlobalState();
 
-  function handleChange(event) {
-    setFormValues((currentValues) => ({
-      ...currentValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    setLoading(true);
+  async function onSubmit(formValues) {
     setError("");
 
-    signUpUser(formValues)
-      .then((response) => {
-        dispatch({
-          type: "user:login",
-          data: {
-            displayName: response.displayName,
-            email: response.email,
-            uid: response.uid,
-            idToken: response.idToken,
-            role: "user",
-          },
-        });
-        setLoading(false);
-        navigate("/user/tickets");
-      })
-      .catch((e) => {
-        setLoading(false);
-        setError(parseError(e));
+    try {
+      const response = await signUpUser(formValues);
+
+      dispatch({
+        type: "user:login",
+        data: {
+          displayName: response.displayName,
+          email: response.email,
+          uid: response.uid,
+          idToken: response.idToken,
+          role: "user",
+        },
       });
+      navigate("/user/tickets");
+    } catch (e) {
+      setError(parseError(e));
+    }
   }
 
   return (
     <Container size="small">
-      <form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+      <form style={{ marginTop: 50 }} onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <div>
             <h1>Welcome!</h1>
@@ -66,31 +68,33 @@ export const SignUp = () => {
 
           <FieldText
             label="Email"
-            name="email"
-            onChange={handleChange}
-            value={formValues.email}
+            {...register("email", { required: true, pattern: /\S+@\S+\.\S+/ })}
+            error={emailErrors[formState.errors?.email?.type]}
           />
 
           <FieldText
             label="Username"
-            name="displayName"
-            onChange={handleChange}
-            value={formValues.displayName}
+            {...register("displayName", {
+              required: true,
+            })}
+            error={usernameErrors[formState.errors?.displayName?.type]}
           />
 
           <FieldText
             label="Password"
             type="password"
-            name="password"
-            onChange={handleChange}
-            value={formValues.password}
+            {...register("password", {
+              required: true,
+              minLength: 8,
+            })}
+            error={passwordErrors[formState.errors?.password?.type]}
           />
 
           <Button
             type="submit"
             fullWidth
-            disabled={loading}
-            isLoading={loading}
+            disabled={formState.isSubmitting}
+            isLoading={formState.isSubmitting}
           >
             Sign Up
           </Button>
