@@ -23,7 +23,7 @@ export const WithTickets = () => {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [fetchCategories, fetchTickets]);
 
   if (loading) {
     return <Spinner style={{ height: "calc(100vh - 72px)" }} />;

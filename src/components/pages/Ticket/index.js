@@ -30,7 +30,7 @@ export const Ticket = () => {
         fetchTickets();
       });
     }
-  }, [id, isNowSeen]);
+  }, [id, isNowSeen, fetchTickets]);
 
   return (
     <>

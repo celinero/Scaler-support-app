@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
 import { useGlobalState } from "config/store";
 import { logInUser, getUser } from "services/userServices";
 import { FieldText } from "components/atoms/form";
@@ -8,23 +9,26 @@ import { Button, TextLink } from "components/atoms/button";
 import { ErrorMessage } from "components/atoms/typo";
 import { parseError } from "config/api";
 
+const emailErrors = {
+  required: "Email required",
+  pattern: "Email invalid",
+};
+
+const passwordErrors = {
+  required: "Password required",
+  minLength: "Password invalid",
+};
+
 export const LogIn = () => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [formValues, setFormValues] = useState({ email: "", password: "" });
   const { dispatch } = useGlobalState();
 
-  function handleChange(event) {
-    setFormValues((currentValues) => ({
-      ...currentValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
+  const { register, handleSubmit, formState } = useForm({
+    mode: "onBlur",
+  });
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setLoading(true);
+  async function onSubmit(formValues) {
     setError("");
 
     try {
@@ -42,17 +46,15 @@ export const LogIn = () => {
         },
       });
 
-      setLoading(false);
       navigate("/user/tickets");
     } catch (e) {
-      setLoading(false);
       setError(parseError(e));
     }
   }
 
   return (
     <Container size="small">
-      <form style={{ marginTop: 50 }} onSubmit={handleSubmit}>
+      <form style={{ marginTop: 50 }} onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <div>
             <h1>Welcome back!</h1>
@@ -63,24 +65,25 @@ export const LogIn = () => {
 
           <FieldText
             label="Email"
-            name="email"
-            onChange={handleChange}
-            value={formValues.email}
+            {...register("email", { required: true, pattern: /\S+@\S+\.\S+/ })}
+            error={emailErrors[formState.errors?.email?.type]}
           />
 
           <FieldText
             label="Password"
             type="password"
-            name="password"
-            onChange={handleChange}
-            value={formValues.password}
+            {...register("password", {
+              required: true,
+              minLength: 8,
+            })}
+            error={passwordErrors[formState.errors?.password?.type]}
           />
 
           <Button
             type="submit"
             fullWidth
-            disabled={loading}
-            isLoading={loading}
+            disabled={formState.isSubmitting}
+            isLoading={formState.isSubmitting}
           >
             Log In
           </Button>

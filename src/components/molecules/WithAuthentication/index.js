@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
 
 import { useGlobalState } from "config/store";
@@ -15,7 +15,7 @@ export const WithAuthentication = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const syncUser = async () => {
+  const syncUser = useCallback(async () => {
     const isUserPage = /^\/user/.test(location.pathname);
     const idToken = sessionStorage.getItem("idToken");
     let response = null;
@@ -49,11 +49,11 @@ export const WithAuthentication = () => {
     }
 
     setLoading(false);
-  };
+  }, [dispatch, location.pathname, navigate]);
 
   useEffect(() => {
     syncUser();
-  }, []);
+  }, [syncUser]);
 
   if (loading) {
     return <Spinner style={{ height: "100vh" }} />;
