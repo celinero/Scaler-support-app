@@ -1,12 +1,8 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Router, Routes, Route } from "react-router-dom";
-import { createMemoryHistory } from "history";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Ticket } from ".";
-
-import { StateContext } from "config/store";
 
 import { customRender } from "utils/testing";
 
