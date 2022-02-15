@@ -1,20 +1,11 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { BrowserRouter } from "react-router-dom";
-import { createMemoryHistory } from "history";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+import { customRender } from "utils/testing";
 import { SignUp } from ".";
 
-import { StateContext } from "config/store";
-
 const mockDispatch = jest.fn();
-const mockNavigate = jest.fn();
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockNavigate,
-}));
 
 const server = setupServer(
   rest.post("http://localhost:3000/users/sign-up", (req, res, ctx) => {
@@ -34,55 +25,44 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("SignUp", () => {
-  let history;
-
-  const renderSignUp = () => {
-    history = createMemoryHistory({ initialEntries: ["/"] });
-    render(
-      <StateContext.Provider value={{ dispatch: mockDispatch }}>
-        <BrowserRouter history={history}>
-          <SignUp />
-        </BrowserRouter>
-      </StateContext.Provider>
-    );
+  const params = {
+    dispatch: mockDispatch,
   };
 
   it("should show welcome title", () => {
-    renderSignUp();
+    customRender(<SignUp />, params);
 
     expect(
-      screen.getByRole("heading", { label: "Welcome!" })
+      screen.getByRole("heading", { name: "Welcome!" })
     ).toBeInTheDocument();
     expect(screen.getByText("Let's create your account")).toBeInTheDocument();
   });
 
   it("should have a SignUp form", () => {
-    renderSignUp();
+    customRender(<SignUp />, params);
 
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Username")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { label: "Sign Up" })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Sign Up" })).toBeInTheDocument();
   });
 
   it("should have a link to login page", () => {
-    renderSignUp();
+    customRender(<SignUp />, params);
 
-    expect(screen.getByRole("link", { label: "Log in" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { label: "Log in" })).toHaveProperty(
+    expect(screen.getByRole("link", { name: "Log in" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Log in" })).toHaveProperty(
       "href",
       "http://localhost/"
     );
   });
 
   it("should display form validation errors", async () => {
-    renderSignUp();
+    customRender(<SignUp />, params);
 
     userEvent.type(screen.getByLabelText("Email"), "celinetest.com");
     userEvent.type(screen.getByLabelText("Password"), "abc45");
-    userEvent.click(screen.getByRole("button", { label: "Sign Up" }));
+    userEvent.click(screen.getByRole("button", { name: "Sign Up" }));
 
     await waitFor(() => {
       expect(screen.getByText("Email invalid")).toBeInTheDocument();
@@ -92,12 +72,12 @@ describe("SignUp", () => {
   });
 
   it("should log in the user and redirect when successful", async () => {
-    renderSignUp();
+    const { history } = customRender(<SignUp />, params);
 
     userEvent.type(screen.getByLabelText("Email"), "celine@test.com");
     userEvent.type(screen.getByLabelText("Username"), "Celine");
     userEvent.type(screen.getByLabelText("Password"), "abcd12345");
-    userEvent.click(screen.getByRole("button", { label: "Sign up" }));
+    userEvent.click(screen.getByRole("button", { name: "Sign Up" }));
 
     await waitFor(() => {
       expect(mockDispatch).toHaveBeenCalledWith({
@@ -111,7 +91,7 @@ describe("SignUp", () => {
         },
       });
 
-      expect(mockNavigate).toHaveBeenCalledWith("/user/tickets");
+      expect(history.location.pathname).toBe("/user/tickets");
     });
   });
 
@@ -122,12 +102,12 @@ describe("SignUp", () => {
       })
     );
 
-    renderSignUp();
+    customRender(<SignUp />, params);
 
     userEvent.type(screen.getByLabelText("Email"), "celine@test.com");
     userEvent.type(screen.getByLabelText("Username"), "Celine");
     userEvent.type(screen.getByLabelText("Password"), "abcd12345");
-    userEvent.click(screen.getByRole("button", { label: "Sign up" }));
+    userEvent.click(screen.getByRole("button", { name: "Sign Up" }));
 
     await waitFor(() => {
       expect(screen.getByText("Oops something went wrong")).toBeInTheDocument();

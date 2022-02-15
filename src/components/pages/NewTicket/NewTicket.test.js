@@ -1,20 +1,11 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { BrowserRouter } from "react-router-dom";
-import { createMemoryHistory } from "history";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+import { customRender } from "utils/testing";
 import { NewTicket } from ".";
 
-import { StateContext } from "config/store";
-
 const mockDispatch = jest.fn();
-const mockNavigate = jest.fn();
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockNavigate,
-}));
 
 const server = setupServer(
   rest.post("http://localhost:3000/tickets", (req, res, ctx) => {
@@ -30,49 +21,39 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("NewTicket", () => {
-  let history;
-
-  const renderNewTicket = (
-    user = { uid: "1" },
-    categories = [{ _id: "1", name: "Bugfix" }]
-  ) => {
-    history = createMemoryHistory({ initialEntries: ["/"] });
-    render(
-      <StateContext.Provider
-        value={{ store: { user, categories }, dispatch: mockDispatch }}
-      >
-        <BrowserRouter history={history}>
-          <NewTicket />
-        </BrowserRouter>
-      </StateContext.Provider>
-    );
+  const params = {
+    dispatch: mockDispatch,
+    store: {
+      user: { uid: "1" },
+      categories: [{ _id: "1", name: "Bugfix" }],
+    },
   };
 
   it("should show need some help title", () => {
-    renderNewTicket();
+    customRender(<NewTicket />, params);
 
     expect(
-      screen.getByRole("heading", { label: "Need some help?" })
+      screen.getByRole("heading", { name: "Need some help?" })
     ).toBeInTheDocument();
     expect(screen.getByText("Create a new support ticket")).toBeInTheDocument();
   });
 
   it("should have a new ticket form", () => {
-    renderNewTicket();
+    customRender(<NewTicket />, params);
 
     expect(screen.getByLabelText("Subject")).toBeInTheDocument();
     expect(screen.getByLabelText("Category")).toBeInTheDocument();
     expect(screen.getByLabelText("Message")).toBeInTheDocument();
 
     expect(
-      screen.getByRole("button", { label: "Add Ticket" })
+      screen.getByRole("button", { name: "Add Ticket" })
     ).toBeInTheDocument();
   });
 
   it("should display form validation errors", async () => {
-    renderNewTicket();
+    customRender(<NewTicket />, params);
 
-    userEvent.click(screen.getByRole("button", { label: "Add Ticket" }));
+    userEvent.click(screen.getByRole("button", { name: "Add Ticket" }));
 
     await waitFor(() => {
       expect(screen.getByText("Subject required")).toBeInTheDocument();
@@ -82,7 +63,7 @@ describe("NewTicket", () => {
   });
 
   it("should refetch tickets and redirect to dashboard when successful", async () => {
-    renderNewTicket();
+    const { history } = customRender(<NewTicket />, params);
 
     userEvent.type(screen.getByLabelText("Subject"), "Connection issue");
     userEvent.selectOptions(screen.getByLabelText("Category"), ["Bugfix"]);
@@ -90,7 +71,7 @@ describe("NewTicket", () => {
       screen.getByLabelText("Message"),
       "I can't connect to scaler anymore"
     );
-    userEvent.click(screen.getByRole("button", { label: "Add Ticket" }));
+    userEvent.click(screen.getByRole("button", { name: "Add Ticket" }));
 
     await waitFor(() => {
       expect(mockDispatch).toHaveBeenCalledWith({
@@ -98,7 +79,7 @@ describe("NewTicket", () => {
         data: [], // API would not return an empty array, but we don't need to test that
       });
 
-      expect(mockNavigate).toHaveBeenCalledWith("/user/tickets");
+      expect(history.location.pathname).toBe("/user/tickets");
     });
   });
 
@@ -109,7 +90,7 @@ describe("NewTicket", () => {
       })
     );
 
-    renderNewTicket();
+    customRender(<NewTicket />, params);
 
     userEvent.type(screen.getByLabelText("Subject"), "Connection issue");
     userEvent.selectOptions(screen.getByLabelText("Category"), ["Bugfix"]);
@@ -117,7 +98,7 @@ describe("NewTicket", () => {
       screen.getByLabelText("Message"),
       "I can't connect to scaler anymore"
     );
-    userEvent.click(screen.getByRole("button", { label: "Add Ticket" }));
+    userEvent.click(screen.getByRole("button", { name: "Add Ticket" }));
 
     await waitFor(() => {
       expect(screen.getByText("Oops something went wrong")).toBeInTheDocument();
