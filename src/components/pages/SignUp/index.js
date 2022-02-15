@@ -26,7 +26,11 @@ const usernameErrors = {
 export const SignUp = () => {
   const [error, setError] = useState("");
 
-  const { register, handleSubmit, formState } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({
     mode: "onBlur",
   });
 
@@ -68,7 +72,7 @@ export const SignUp = () => {
           <FieldText
             label="Email"
             {...register("email", { required: true, pattern: /\S+@\S+\.\S+/ })}
-            error={emailErrors[formState.errors?.email?.type]}
+            error={emailErrors[errors?.email?.type]}
           />
 
           <FieldText
@@ -76,7 +80,7 @@ export const SignUp = () => {
             {...register("displayName", {
               required: true,
             })}
-            error={usernameErrors[formState.errors?.displayName?.type]}
+            error={usernameErrors[errors?.displayName?.type]}
           />
 
           <FieldText
@@ -86,14 +90,14 @@ export const SignUp = () => {
               required: true,
               minLength: 8,
             })}
-            error={passwordErrors[formState.errors?.password?.type]}
+            error={passwordErrors[errors?.password?.type]}
           />
 
           <Button
             type="submit"
             fullWidth
-            disabled={formState.isSubmitting}
-            isLoading={formState.isSubmitting}
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Sign Up
           </Button>
