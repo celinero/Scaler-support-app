@@ -20,14 +20,14 @@ export const Field = ({ children, label }) => (
 
 export const FieldText = forwardRef(({ label, error, ...etc }, ref) => (
   <Field label={label}>
-    <Input type="text" placeholder=" " {...etc} ref={ref} />
+    <Input type="text" placeholder=" " aria-label={label} {...etc} ref={ref} />
     {error && <ErrorMessage>{error}</ErrorMessage>}
   </Field>
 ));
 
 export const FieldTextArea = forwardRef(({ label, error, ...etc }, ref) => (
   <Field label={label}>
-    <TextArea placeholder=" " {...etc} ref={ref} />
+    <TextArea placeholder=" " aria-label={label} {...etc} ref={ref} />
     {error && <ErrorMessage>{error}</ErrorMessage>}
   </Field>
 ));
@@ -35,7 +35,7 @@ export const FieldTextArea = forwardRef(({ label, error, ...etc }, ref) => (
 export const FieldSelect = forwardRef(
   ({ label, children, error, ...etc }, ref) => (
     <Field label={label}>
-      <Select required defaultValue=" " {...etc} ref={ref}>
+      <Select required defaultValue=" " {...etc} ref={ref} aria-label={label}>
         <option disabled hidden value=" "></option>
         {children}
       </Select>

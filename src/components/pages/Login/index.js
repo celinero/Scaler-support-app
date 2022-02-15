@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useGlobalState } from "config/store";
 import { logInUser, getUser } from "services/userServices";
@@ -32,12 +32,12 @@ export const LogIn = () => {
     try {
       setError("");
       const { uid, displayName, email, idToken } = await logInUser(formValues);
-      const user = await getUser(uid);
+      const { role } = await getUser(uid);
 
       dispatch({
         type: "user:login",
         data: {
-          role: user.role,
+          role,
           displayName,
           email,
           uid,
