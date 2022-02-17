@@ -70,12 +70,12 @@ export const PreviewTicket = ({
           <p style={{ marginTop: 10 }}>{capitalize(ticketSubject)}</p>
         )}
         {!ticketSeen && !isAdmin && (
-          <Notification>
+          <Notification data-testid={`${_id}--not-seen`}>
             <MdNotificationsNone size={20} color="white" />
           </Notification>
         )}
         {showAdminNotification && (
-          <Notification>
+          <Notification data-testid={`${_id}--require-action`}>
             <MdOutlineTextsms size={18} color="white" />
           </Notification>
         )}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useGlobalState } from "config/store";
 import { logInUser, getUser } from "services/userServices";
@@ -24,20 +24,29 @@ export const LogIn = () => {
   const navigate = useNavigate();
   const { dispatch } = useGlobalState();
 
-  const { register, handleSubmit, formState } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({
     mode: "onBlur",
   });
 
   async function onSubmit(formValues) {
     try {
+      // reset error state
+      // in case of previous unsuccessful submit
       setError("");
-      const { uid, displayName, email, idToken } = await logInUser(formValues);
-      const user = await getUser(uid);
 
+      const { uid, displayName, email, idToken } = await logInUser(formValues);
+      const { role } = await getUser(uid);
+
+      // Log in the user
+      // and redirect to dashboard
       dispatch({
         type: "user:login",
         data: {
-          role: user.role,
+          role,
           displayName,
           email,
           uid,
@@ -65,7 +74,7 @@ export const LogIn = () => {
           <FieldText
             label="Email"
             {...register("email", { required: true, pattern: /\S+@\S+\.\S+/ })}
-            error={emailErrors[formState.errors?.email?.type]}
+            error={emailErrors[errors?.email?.type]}
           />
 
           <FieldText
@@ -75,14 +84,14 @@ export const LogIn = () => {
               required: true,
               minLength: 8,
             })}
-            error={passwordErrors[formState.errors?.password?.type]}
+            error={passwordErrors[errors?.password?.type]}
           />
 
           <Button
             type="submit"
             fullWidth
-            disabled={formState.isSubmitting}
-            isLoading={formState.isSubmitting}
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Log In
           </Button>

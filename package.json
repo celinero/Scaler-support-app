@@ -2,10 +2,14 @@
   "name": "scaler-support-app",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "PORT=3001 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "coverage": "react-scripts test --coverage --watchAll",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "axios": "^0.24.0",
     "moment": "^2.29.1",
     "react": "^17.0.2",
@@ -19,11 +23,13 @@
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.3"
   },
-  "scripts": {
-    "start": "PORT=3001 react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "history": "^5.2.0",
+    "msw": "^0.36.8",
+    "prettier": "^2.5.1"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,8 +45,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "prettier": "^2.5.1"
   }
 }

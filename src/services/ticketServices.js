@@ -6,7 +6,6 @@ export const getTickets = async () => {
     const response = await scalerApi.get("/tickets");
     return response.data;
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
@@ -16,7 +15,6 @@ export const getTicket = async (id) => {
     const response = await scalerApi.get(`/tickets/${id}`);
     return response.data;
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
@@ -26,7 +24,6 @@ export const updateTicket = async (id, ticketObject) => {
     const response = await scalerApi.put(`/tickets/${id}`, ticketObject);
     return response.data;
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
@@ -36,7 +33,6 @@ export const createNewTicket = async (ticketObject) => {
     const response = await scalerApi.post(`/tickets`, ticketObject);
     return response.data;
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
@@ -49,7 +45,6 @@ export const addMessageToTicket = async (id, ticketObject) => {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
