@@ -17,38 +17,50 @@ export const WithAuthentication = () => {
 
   const syncUser = useCallback(async () => {
     const isUserPage = /^\/user/.test(location.pathname);
-    const idToken = sessionStorage.getItem("idToken");
-    let response = null;
 
-    if (idToken) {
-      response = await validateUserSession(idToken);
+    try {
+      const idToken = sessionStorage.getItem("idToken");
+      let response = null;
+
+      if (idToken) {
+        response = await validateUserSession(idToken);
+      }
+
+      if (response?.fullDecodedToken) {
+        const { uid, name, email } = response.fullDecodedToken;
+        const { role } = await getUser(uid);
+
+        dispatch({
+          type: "user:login",
+          data: {
+            displayName: name,
+            role,
+            email,
+            uid,
+            idToken,
+          },
+        });
+      }
+
+      // no token, no response,
+      // and we are on a page that require authentication
+      // then redirect to entry point
+      if ((!idToken || !response?.fullDecodedToken) && isUserPage) {
+        navigate("/");
+      }
+
+      // if user is logged, and is on a "public" page
+      // redirect the user to his dashboard
+      if (idToken && !isUserPage) {
+        navigate("/user/tickets");
+      }
+    } catch {
+      if (isUserPage) {
+        navigate("/");
+      }
+    } finally {
+      setLoading(false);
     }
-
-    if (response?.fullDecodedToken) {
-      const { uid, name, email } = response.fullDecodedToken;
-      const { role } = await getUser(uid);
-
-      dispatch({
-        type: "user:login",
-        data: {
-          displayName: name,
-          role,
-          email,
-          uid,
-          idToken,
-        },
-      });
-    }
-
-    if ((!idToken || !response?.fullDecodedToken) && isUserPage) {
-      navigate("/");
-    }
-
-    if (idToken && !isUserPage) {
-      navigate("/user/tickets");
-    }
-
-    setLoading(false);
   }, [dispatch, location.pathname, navigate]);
 
   useEffect(() => {
