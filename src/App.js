@@ -6,7 +6,7 @@ import stateReducer from "./config/stateReducer";
 import initialState from "./config/initialState";
 import { StateContext } from "./config/store";
 
-import { LogIn } from "components/pages/LogIn";
+import { LogIn } from "components/pages/Login";
 import { SignUp } from "components/pages/SignUp";
 import { Tickets } from "components/pages/Tickets";
 import { NewTicket } from "components/pages/NewTicket";
