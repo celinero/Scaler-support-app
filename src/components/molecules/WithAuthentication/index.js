@@ -46,6 +46,7 @@ export const WithAuthentication = () => {
       // and we are on a page that require authentication
       // then redirect to entry point
       if ((!idToken || !response?.fullDecodedToken) && isUserPage) {
+        sessionStorage.removeItem("idToken");
         navigate("/");
       }
 
@@ -55,6 +56,8 @@ export const WithAuthentication = () => {
         navigate("/user/tickets");
       }
     } catch {
+      sessionStorage.removeItem("idToken");
+
       if (isUserPage) {
         navigate("/");
       }
