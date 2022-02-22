@@ -10,6 +10,8 @@ import { useGlobalState } from "config/store";
 import { BubbleWrapper, Bubble } from "./styles";
 import { AddMessage } from "./AddMessage";
 
+// Ticket
+// show the conversation for a specific ticket
 export const Ticket = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,13 +22,16 @@ export const Ticket = () => {
   const ticket = tickets.find((t) => t._id.toString() === id);
   const [loading, setLoading] = useState(false);
 
-  // means that ticket's update has been seen
-  // by ticket's owner
+  // if the ticket is own by current user
+  // and the last update is from an admin
+  // THEN consider the ticket has "seen" by current user
   const isNowSeen = !ticket?.ticketSeen && user.uid === ticket?.ticketUserID;
 
   useEffect(() => {
+    // update the ticket to "seen" if needed
     if (id && isNowSeen) {
       updateTicket(id, { ticketSeen: true }).then(() => {
+        // and refetch tickets to update the global state
         fetchTickets();
       });
     }
@@ -46,10 +51,15 @@ export const Ticket = () => {
                 isLoading={loading}
                 onClick={async () => {
                   setLoading(true);
+
+                  // update the ticket to solved,
                   await updateTicket(id, {
                     ticketResolved: !ticket.ticketResolved,
                   });
+
+                  // and refetch tickets to update the global state
                   await fetchTickets();
+
                   setLoading(false);
                   navigate("/user/tickets");
                 }}

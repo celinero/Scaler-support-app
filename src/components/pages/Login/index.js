@@ -38,11 +38,12 @@ export const LogIn = () => {
       // in case of previous unsuccessful submit
       setError("");
 
-      const { uid, displayName, email, idToken } = await logInUser(formValues);
-      const { role } = await getUser(uid);
+      // log the user via firebase
+      const { uid, email, idToken } = await logInUser(formValues);
+      // then fetch our user entry from mongoose
+      const { role, displayName } = await getUser(uid);
 
-      // Log in the user
-      // and redirect to dashboard
+      // update the global state
       dispatch({
         type: "user:login",
         data: {
@@ -54,6 +55,7 @@ export const LogIn = () => {
         },
       });
 
+      // and redirect to dashboard
       navigate("/user/tickets");
     } catch (e) {
       setError(parseError(e));

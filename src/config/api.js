@@ -7,6 +7,7 @@ const scalerApi = axios.create({
 scalerApi.interceptors.request.use((req) => {
   const idToken = sessionStorage.getItem("idToken");
   if (idToken) {
+    // add authorization header to all API calls if we have an idToken
     req.headers["Authorization"] = `Bearer ${idToken}`;
   }
   return req;

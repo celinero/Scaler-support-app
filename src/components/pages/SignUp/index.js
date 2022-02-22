@@ -39,9 +39,14 @@ export const SignUp = () => {
 
   async function onSubmit(formValues) {
     try {
+      // reset error state
+      // in case of previous unsuccessful submit
       setError("");
+
+      // sign up the user via firebase
       const response = await signUpUser(formValues);
 
+      // update the global state
       dispatch({
         type: "user:login",
         data: {
@@ -52,6 +57,8 @@ export const SignUp = () => {
           role: "user",
         },
       });
+
+      // and redirect
       navigate("/user/tickets");
     } catch (e) {
       setError(parseError(e));
@@ -67,7 +74,7 @@ export const SignUp = () => {
             <p style={{ marginTop: 5 }}>Let's create your account</p>
           </div>
 
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {!!error && <ErrorMessage>{error}</ErrorMessage>}
 
           <FieldText
             label="Email"

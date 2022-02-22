@@ -41,11 +41,13 @@ export const NewTicket = () => {
   async function onSubmit(formValues) {
     try {
       setError(false);
+      // add the new ticket into DB
       await createNewTicket({
         ...formValues,
         ticketUserID: user.uid,
       });
 
+      // refetch to update global state
       await fetchTickets();
 
       navigate("/user/tickets");

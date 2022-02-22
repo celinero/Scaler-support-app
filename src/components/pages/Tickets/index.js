@@ -5,6 +5,10 @@ import { Container, PageHeader } from "components/atoms/layout";
 import { ButtonLink } from "components/atoms/button";
 import { PreviewTicket } from "components/molecules/PreviewTicket";
 
+// Tickets
+// display all the tickets
+// > from a specific user if current user is role "user"
+// > from all users if current user is role "admin"
 export const Tickets = () => {
   const { tickets } = useTickets();
   const {
@@ -16,6 +20,8 @@ export const Tickets = () => {
     (ticket) => !ticket.ticketResolved
   );
   const solvedTickets = sortedTickets.filter((ticket) => ticket.ticketResolved);
+
+  // identify user's role to drive the differnet UI
   const isAdmin = user.role === "admin";
 
   return (
@@ -24,6 +30,10 @@ export const Tickets = () => {
         cta={
           !isAdmin && (
             <>
+              {/*
+               * if user is not admin,
+               * then show the "create a new ticket" call to action
+               */}
               <p style={{ marginBottom: 5 }}>Need help?</p>
               <ButtonLink to="/user/tickets/new">
                 Create a new ticket
